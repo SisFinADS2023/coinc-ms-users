@@ -1,7 +1,7 @@
 
 import { inject, injectable } from "inversify";
 import { IUserRepository } from "./../../business/contracts/repositories/IUserRepository";
-import { IUser } from "./../../entities/IUser";
+import { IUser } from "../../entities/iuser";
 import { UserModel } from "./../models/UserModel";
 
 @injectable()

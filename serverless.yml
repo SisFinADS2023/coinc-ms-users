@@ -28,4 +28,4 @@ custom:
     minify: false
   serviceName: users
   baseApi: ${self:custom.serviceName}
-  handlers: src/framewors/handlers
+  handlers: src/frameworks/handlers

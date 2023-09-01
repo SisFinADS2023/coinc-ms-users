@@ -7,7 +7,19 @@
 Setting aws credentials first:
 
 ```
-$ sls config credentials -o --provider aws --key [aws-key] --secret [aws-secret]
+$ npm install 
+```
+
+```
+$ npx serverless config credentials -o --provider aws --key [aws-key] --secret [aws-secret]
+```
+
+### Jest
+
+```
+npm install --save-dev ts-jest
+
+npx ts-jest config:init 
 ```
 
 ### Deployment
@@ -15,7 +27,7 @@ $ sls config credentials -o --provider aws --key [aws-key] --secret [aws-secret]
 In order to deploy the example, you need to run the following command:
 
 ```
-$ sls deploy
+$ npx serverless deploy
 ```
 
 ### Invocation
