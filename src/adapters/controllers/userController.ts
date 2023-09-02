@@ -1,5 +1,6 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import { injectable, inject } from "inversify";
+import * as E from "fp-ts/Either";
 import { GetUserUseCase } from "../../business/usecases/getUserUseCase";
 import { IGetUserInput } from "../../business/usecases/input/iGetUserInput";
 
@@ -7,13 +8,13 @@ import { IGetUserInput } from "../../business/usecases/input/iGetUserInput";
 export class UserController {
   constructor(@inject(GetUserUseCase) private getUserUseCase: GetUserUseCase) {}
 
-  public getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
+  async getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
     let response: APIGatewayProxyResult;
-    try {
-      this.getUserUseCase.exec(input);
-      return this.getResponse(200, { success: true });
-    } catch (error) {
-      return this.getResponse(400, error);
+    const result = await this.getUserUseCase.exec(input);
+    if (E.isLeft(result)) {
+      return this.getResponse(400, result);
+    } else {
+      return this.getResponse(200, result);
     }
   }
 

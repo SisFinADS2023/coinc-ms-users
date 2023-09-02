@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import "./../inversify/inversify.config";
+import dotenv from "dotenv";
 import {
   Handler,
   APIGatewayProxyEvent,
@@ -13,33 +14,25 @@ import {
   GetUserRequestSchema,
 } from "./../../adapters/serializers/getUserRequest";
 
+dotenv.config();
+
 export const getUser: Handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   try {
-    const pathParams = event.pathParameters;
-    const userId = pathParams?.userId;
-
-    if (!userId) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: "Invalid userId" }),
-      };
-    }
-
-    const userRequest: GetUserRequest = GetUserRequestSchema.parse(
-      JSON.parse(JSON.stringify(pathParams))
+    context.callbackWaitsForEmptyEventLoop = false;
+    const userInput: GetUserRequest = GetUserRequestSchema.parse(
+      JSON.parse(JSON.stringify(event.pathParameters))
     );
 
-    const userController: UserController =
-      container.get<UserController>(UserController);
+    const userController = container.get(UserController);
 
-    const userData = await userController.getUser(userRequest);
+    const result = await userController.getUser(userInput);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(userData),
+      body: JSON.stringify(result),
     };
   } catch (error) {
     console.error("Error:", error);

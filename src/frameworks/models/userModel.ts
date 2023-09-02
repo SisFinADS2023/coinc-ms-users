@@ -1,9 +1,15 @@
-import * as mongoose from "mongoose";
+import { Document, Schema, model } from "mongoose";
 
-const schema = new mongoose.Schema({
-  id: String,
-  name: String,
-  email: String
+export type UserDocument = Document & {
+  userId: string;
+  name: string;
+  email: string;
+};
+
+const schema = new Schema<UserDocument>({
+  userId: { type: String, index: true, unique: true },
+  name: { type: String },
+  email: { type: String, index: true, unique: true },
 });
 
-export const UserModel = mongoose.model("User", schema)
+export const UserModel = model<UserDocument>("User", schema);

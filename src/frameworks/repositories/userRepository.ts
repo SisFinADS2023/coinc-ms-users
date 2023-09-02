@@ -1,19 +1,20 @@
 import { inject, injectable } from "inversify";
+import { left, right } from "fp-ts/Either";
 import { IUserRepository } from "./../../business/contracts/repositories/iUserRepository";
-import { IUser } from "../../entities/iUser";
+import { IUserEntity } from "../../entities/iUserEntity";
 import { UserModel } from "./../models/userModel";
 
 @injectable()
 export class UserRepository implements IUserRepository {
   public constructor(@inject(UserModel) private userModel: typeof UserModel) {}
 
-  async get(userId: string): Promise<IUser> {
-    const user = await this.userModel.findOne({ where: { id: userId } });
-
-    if (!user) {
-      throw new Error("User not found");
+  async get(userId: string): Promise<IUserEntity> {
+    try {
+      const user = await this.userModel.findOne({ where: { userId: userId } });
+      return user as IUserEntity;
+    } catch (error) {
+      console.log("ERRO: ", JSON.stringify(error));
+      throw new Error(`Internal Server Error: ${JSON.stringify(error)}`);
     }
-
-    return user as IUser;
   }
 }

@@ -17,5 +17,10 @@
     "mongoose": "^7.4.5",
     "reflect-metadata": "^0.1.13",
     "zod": "^3.22.2"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/serverless offline -s dev",
+    "debug": "export SLS_DEBUG=* && node --debug ./node_modules/.bin/serverless offline -s dev",
+    "test": "mocha"
   }
 }
