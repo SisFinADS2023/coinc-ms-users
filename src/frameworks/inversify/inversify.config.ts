@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { RepositoriesModule } from "./repositoriesModule";
 import { ModelsModule } from "./modelsModule";
 import { UseCasesModule } from "./useCasesModule";

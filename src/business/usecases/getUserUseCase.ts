@@ -8,7 +8,7 @@ import { IGetUserInput } from "./input/iGetUserInput";
 @injectable()
 export class GetUserUseCase implements IUseCase<IGetUserInput, UserOutput> {
   constructor(
-    @inject(Symbol.for("IUserRepository"))
+    @inject("IUserRepository")
     private userRepository: IUserRepository
   ) {}
 

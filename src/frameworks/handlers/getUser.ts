@@ -1,3 +1,5 @@
+import "reflect-metadata";
+import "./../inversify/inversify.config";
 import {
   Handler,
   APIGatewayProxyEvent,
@@ -17,11 +19,22 @@ export const getUser: Handler = async (
 ): Promise<APIGatewayProxyResult> => {
   try {
     const pathParams = event.pathParameters;
+    const userId = pathParams?.userId;
+
+    if (!userId) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: "Invalid userId" }),
+      };
+    }
+
     const userRequest: GetUserRequest = GetUserRequestSchema.parse(
-      JSON.parse(event.body || "{}")
+      JSON.parse(JSON.stringify(pathParams))
     );
 
-    const userController: UserController = container.get("UserController");
+    const userController: UserController =
+      container.get<UserController>(UserController);
+
     const userData = await userController.getUser(userRequest);
 
     return {
