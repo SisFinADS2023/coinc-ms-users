@@ -1,7 +1,7 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import { injectable, inject } from "inversify";
-import { GetUserUseCase } from "../../business/usecases/GetUserUseCase";
-import { IGetUserInput } from "../../business/usecases/input/IGetUserInput";
+import { GetUserUseCase } from "./../../business/usecases/GetUserUseCase";
+import { IGetUserInput } from "./../../business/usecases/input/IGetUserInput";
 
 @injectable()
 export class UserController {

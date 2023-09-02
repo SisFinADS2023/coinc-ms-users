@@ -1,5 +1,5 @@
 import { ContainerModule, interfaces } from "inversify"
-import { UserModel } from "../models/UserModel";
+import { UserModel } from "./../models/UserModel";
 
 
 export const ModelsModule = new ContainerModule((bind: interfaces.Bind) => {

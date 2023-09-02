@@ -7,9 +7,17 @@ provider:
   name: aws
   runtime: nodejs18.x
 
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+  serviceName: users
+  baseApi: ${self:custom.serviceName}
+  handlers: src/frameworks/handlers
+
 functions:
   getUser:
-    handler: ${self:custom.handlers}/getUserHandler.handler
+    handler: ${self:custom.handlers}/getUser.getUser
     events:
       - http:
           path: ${self:custom.baseApi}/{userId}
@@ -21,11 +29,3 @@ plugins:
   - serverless-esbuild
   - serverless-offline
   - serverless-plugin-typescript
-
-custom:
-  esbuild:
-    bundle: true
-    minify: false
-  serviceName: users
-  baseApi: ${self:custom.serviceName}
-  handlers: src/frameworks/handlers

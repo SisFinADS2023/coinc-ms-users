@@ -1,7 +1,7 @@
-import { IUser } from "../../../entities/iuser";
-import { IError } from "../../contracts/IError";
+import { IUser } from "./../../../entities/iuser";
+import { IError } from "./../../contracts/IError";
 import * as E from "fp-ts/Either";
 
 export interface IGetUserInput {
-  user_id: string
+  userId: string
 }

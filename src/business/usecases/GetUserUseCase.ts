@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
 import * as E from "fp-ts/Either";
-import { IUserRepository } from "../contracts/repositories/IUserRepository";
+import { IUserRepository } from "./../contracts/repositories/IUserRepository";
 import { UserOutput } from "./output/UserOutput";
-import { IUseCase } from "../contracts/usecases/IUseCase"
+import { IUseCase } from "./../contracts/usecases/IUseCase"
 import { IGetUserInput } from "./input/IGetUserInput";
 
 @injectable()

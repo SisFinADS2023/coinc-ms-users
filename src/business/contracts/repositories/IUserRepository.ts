@@ -1,5 +1,5 @@
-import { IUser } from "../../../entities/iuser"
+import { IUser } from "./../../../entities/iuser";
 
 export interface IUserRepository {
-  get(user_id: string): Promise<IUser>
+  get(userId: string): Promise<IUser | null>
 }

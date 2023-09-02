@@ -1,8 +1,10 @@
-import mongoose from "mongoose";
-import "dotenv/config"
+import * as mongoose from "mongoose";
 
-export default mongoose.connect(process.env.MONGO_URI, {
-  dbName: process.env.DB_NAME,
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
+let url = process.env.MONGO_URI ?? "mongo"
+let dbname = process.env.DB_NAME ?? "users"
+export default mongoose.connect(
+  url,
+  {
+    dbName: dbname,
+  }
+);
