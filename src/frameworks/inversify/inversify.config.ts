@@ -1,12 +1,12 @@
-import "reflect-metadata"
+import "reflect-metadata";
 
-import { RepositoriesModule } from "./RepositoriesModule";
-import { ModelsModule } from "./ModelsModule";
-import { UseCasesModule } from "./UseCasesModule";
-import { ControllerModule } from "./ControllerModule";
-import { container }  from "./container";
+import { RepositoriesModule } from "./repositoriesModule";
+import { ModelsModule } from "./modelsModule";
+import { UseCasesModule } from "./useCasesModule";
+import { ControllerModule } from "./controllerModule";
+import { container } from "./container";
 
-container.load(ControllerModule)
-container.load(UseCasesModule)
-container.load(ModelsModule)
-container.load(RepositoriesModule)
+container.load(ControllerModule);
+container.load(UseCasesModule);
+container.load(ModelsModule);
+container.load(RepositoriesModule);
