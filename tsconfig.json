@@ -4,14 +4,17 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "allowJs": true,
-    "target": "es6",
-    "outDir": ".build",
+    "target": "ES6",
+    "outDir": ".esbuild",
     "moduleResolution": "node",
-    "lib": ["es2015"],
+    "module": "ES6",
+    "lib": ["ES2015"],
     "types": ["reflect-metadata", "node"],
-    "rootDir": "./",
+    "rootDir": "./src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

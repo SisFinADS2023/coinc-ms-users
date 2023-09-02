@@ -8,6 +8,7 @@ provider:
   runtime: nodejs18.x
 
 custom:
+  # webpackIncludeModules: true
   esbuild:
     bundle: true
     minify: false
@@ -28,4 +29,3 @@ functions:
 plugins:
   - serverless-esbuild
   - serverless-offline
-  - serverless-plugin-typescript
