@@ -1,6 +1,6 @@
-import "reflect-metadata"
-import { Container } from "inversify"
+import { Container } from "inversify";
+import "reflect-metadata";
 
-const container = new Container()
+const container = new Container();
 
-export { container }
+export { container };

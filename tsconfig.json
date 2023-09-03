@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "module": "ES6",
     "lib": ["ES2015"],
-    "types": ["reflect-metadata", "node"],
+    "types": ["reflect-metadata", "node", "jest"],
     "rootDir": "./src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
