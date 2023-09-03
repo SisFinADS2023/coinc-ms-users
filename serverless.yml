@@ -1,25 +1,35 @@
-org: mariliaglorenzato
-app: aws-node
+app: ms-users
 service: ms-users
 frameworkVersion: '3'
 
 provider:
   name: aws
   runtime: nodejs18.x
-  timeout: 30
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "lambda"
+          Resource:
+            - "*"
 
 custom:
   # webpackIncludeModules: true
   esbuild:
     bundle: true
     minify: false
-  serviceName: users
+  serviceName: ms-users
   baseApi: ${self:custom.serviceName}
   handlers: src/frameworks/handlers
 
 functions:
   getUser:
     handler: ${self:custom.handlers}/getUser.getUser
+    tracing: true
+    url:
+      authorizer: aws_iam
     events:
       - http:
           path: ${self:custom.baseApi}/{userId}
