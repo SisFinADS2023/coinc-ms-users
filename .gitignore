@@ -8,4 +8,5 @@ jspm_packages
 .build
 .esbuild
 .serverless
+.vscode
 node_modules
