@@ -1,13 +1,20 @@
 import * as mongoose from "mongoose";
 
-let uri =
-  process.env.MONGO_URI ??
-  "mongodb://atlas-sql-64ebd7cca1a1b90087c1982a-kyntt.a.query.mongodb.net/ms-users?ssl=true&authSource=admin";
+console.log("called mongoose-db");
+mongoose.set("debug", true);
 
-export default mongoose
-  .connect(uri, {})
+let uri = process.env.MONGO_URI;
+
+if (!uri) {
+  console.log("ERRRO: env nao tem uri");
+  process.exit(1);
+}
+
+mongoose
+  .connect(uri)
   .then(() => {
     console.log("Mongo connection success");
+    console.log("database name:", mongoose.connection.name);
   })
   .catch((error) => {
     // MongoDB connection error. Please make sure MongoDB is running.

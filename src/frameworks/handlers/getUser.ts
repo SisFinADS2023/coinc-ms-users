@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import "./../inversify/inversify.config";
-import dotenv from "dotenv";
 import {
   Handler,
   APIGatewayProxyEvent,
@@ -13,8 +12,7 @@ import {
   GetUserRequest,
   GetUserRequestSchema,
 } from "./../../adapters/serializers/getUserRequest";
-
-dotenv.config();
+import "./../models/index";
 
 export const getUser: Handler = async (
   event: APIGatewayProxyEvent,

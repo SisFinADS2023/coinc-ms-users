@@ -10,11 +10,13 @@ export class UserRepository implements IUserRepository {
 
   async get(userId: string): Promise<IUserEntity> {
     try {
-      const user = await this.userModel.findOne({ where: { userId: userId } });
+      const user = await this.userModel.findOne({ userId }).exec();
       return user as IUserEntity;
     } catch (error) {
-      console.log("ERRO: ", JSON.stringify(error));
-      throw new Error(`Internal Server Error: ${JSON.stringify(error)}`);
+      console.log("ERRO: ", JSON.stringify(error.message));
+      throw new Error(
+        `Internal Server Error: ${JSON.stringify(error.message)}`
+      );
     }
   }
 }

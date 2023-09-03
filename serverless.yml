@@ -1,11 +1,15 @@
 app: ms-users
 service: ms-users
+useDotenv: true
 frameworkVersion: '3'
 
 provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  environment:
+    MONGO_URI: ${env:MONGO_URI}
+  timeout: 30
   iam:
     role:
       statements:
