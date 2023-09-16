@@ -28,15 +28,12 @@ export const getUser: Handler = async (
 
     const result = await userController.getUser(userInput);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(result),
-    };
+    return result;
   } catch (error) {
     console.error("Error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Internal Server Error" }),
+      body: JSON.stringify({ message: "Oh-oh! Something went wrong." }),
     };
   }
 };

@@ -1,65 +1,66 @@
 # ms-users
 
-## Usage
+## Utilização
+
+1. Copie o arquivo .env.sample e renomeie para .env
+2. Insira o usuário, senha e nome da database
+
 
 ### Setup
 
-Setting aws credentials first:
+Defina as credenciais da aws:
 
 ```
-$ npm install 
+$ npm install
 ```
 
 ```
 $ npx serverless config credentials -o --provider aws --key [aws-key] --secret [aws-secret]
-```
-
-### Jest
 
 ```
-npm install --save-dev ts-jest
 
-npx ts-jest config:init 
+ou:
+
+
+```
+$ serverless config credentials -o --provider aws --key [aws-key] --secret [aws-secret]
+
 ```
 
-### Deployment
-
-In order to deploy the example, you need to run the following command:
+### Deploy
 
 ```
 $ npx serverless deploy
 ```
 
-### Invocation
+```
+$ npm serverless deploy
+```
 
-After successful deployment, you can invoke the deployed function by using the following command:
+### Invocar uma lambda?
+
+Após o deploy, você pode invokar uma função implantada utilizando o comando:
 
 ```bash
-serverless invoke --function hello
+serverless invoke local --function getUser
 ```
 
-Which should result in response similar to the following:
+Ou remotamente:
 
-```json
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
+```brash
+serverless invoke --function getUser
 ```
 
-### Local development
+### Testes
 
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
+Os testes unitários podem ser executados via npm:
 
 ```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
+npm test
+```
+
+ou via npx:
+
+```
+npx jest
 ```

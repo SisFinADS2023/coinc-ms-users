@@ -5,8 +5,10 @@ mongoose.set("debug", true);
 
 let uri = process.env.MONGO_URI;
 
+console.log(uri);
+
 if (!uri) {
-  console.log("ERRRO: env nao tem uri");
+  console.log("ERRO: env nao tem uri");
   process.exit(1);
 }
 
@@ -17,7 +19,6 @@ mongoose
     console.log("database name:", mongoose.connection.name);
   })
   .catch((error) => {
-    // MongoDB connection error. Please make sure MongoDB is running.
     console.error("MongoDB connection error:", error);
-    process.exit(1); // Exit the Node.js process with an error code
+    process.exit(1);
   });

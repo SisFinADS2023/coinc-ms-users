@@ -21,7 +21,7 @@ describe(GetUserUseCase.name, () => {
   beforeEach(() => {
     userRepositoryMockGetFunction = jest.fn();
     userRepositoryMock = {
-      get: userRepositoryMockGetFunction,
+      show: userRepositoryMockGetFunction,
     };
     getUserUseCase = new GetUserUseCase(userRepositoryMock);
   });
@@ -49,7 +49,7 @@ describe(GetUserUseCase.name, () => {
     });
   });
 
-  describe("When something went wrong", () => {
+  describe("When error", () => {
     it("should return UserNotFound when user is not found", async () => {
       userRepositoryMockGetFunction.mockResolvedValueOnce(null);
 
