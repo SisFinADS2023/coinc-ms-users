@@ -16,7 +16,7 @@ export class CreateUserUseCase implements ICreateUseCase<ICreateUserInput, UserO
     
     async exec(input: ICreateUserInput): Promise<UserOutput> {
         try {
-        const userEntity = new UserEntity(input.CPF, input.name, input.email);
+        const userEntity = new UserEntity(input.documentNumber, input.name, input.email);
         const result = await this.userRepository.create(userEntity);
     
         if (!result) {

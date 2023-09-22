@@ -1,6 +1,6 @@
 export interface IUserEntity {
   userId: String;
-  CPF: String;
+  documentNumber: String;
   name: String;
   email: String;
 }

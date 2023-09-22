@@ -22,6 +22,7 @@ describe(GetUserUseCase.name, () => {
     userRepositoryMockGetFunction = jest.fn();
     userRepositoryMock = {
       show: userRepositoryMockGetFunction,
+      create: jest.fn(),
     };
     getUserUseCase = new GetUserUseCase(userRepositoryMock);
   });
@@ -34,6 +35,7 @@ describe(GetUserUseCase.name, () => {
 
       userOutput = E.right<IError, IUserEntity>({
         userId: "123",
+        documentNumber: "12345678910",
         name: "test",
         email: "email@email.com",
       });
