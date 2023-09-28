@@ -1,0 +1,38 @@
+app: ms-users
+service: ms-users
+useDotenv: true
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    MONGO_URI: ${env:MONGO_URI}
+  timeout: 30
+
+custom:
+  # webpackIncludeModules: true
+  esbuild:
+    bundle: true
+    minify: false
+  serviceName: ms-users
+  baseApi: ${self:custom.serviceName}
+  handlers: src/frameworks/handlers
+
+functions:
+  getUser:
+    handler: ${self:custom.handlers}/getUser.getUser
+    tracing: true
+    url:
+      authorizer: aws_iam
+    events:
+      - http:
+          path: ${self:custom.baseApi}/{userId}
+          method: get
+          cors:
+            origin: '*'
+            headers: '*'
+plugins:
+  - serverless-esbuild
+  - serverless-offline

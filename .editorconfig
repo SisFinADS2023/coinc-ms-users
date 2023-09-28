@@ -1,0 +1,30 @@
+# EditorConfig helps developers define and maintain consistent coding styles
+# for TypeScript, JavaScript, and other related files.
+
+# Top-most EditorConfig file
+root = true
+
+# Specify the file type for which these rules apply
+[*]
+
+# Indentation settings (use spaces or tabs)
+indent_style = space
+indent_size = 2
+
+# Character encoding
+charset = utf-8
+
+# End of line (EOL) style
+end_of_line = lf
+
+# Trim trailing whitespace on save
+trim_trailing_whitespace = true
+
+# Ensure a single newline at the end of the file
+insert_final_newline = true
+
+# Set a maximum line length (optional, adjust to your preferred limit)
+max_line_length = 80
+
+# TypeScript-specific settings
+[*.ts]

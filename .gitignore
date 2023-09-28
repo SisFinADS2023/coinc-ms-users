@@ -1,0 +1,13 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+.env
+.build
+.esbuild
+.serverless
+.vscode
+node_modules
+package-lock.json
