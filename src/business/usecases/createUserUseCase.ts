@@ -4,7 +4,7 @@ import { IUserRepository } from "./../contracts/repositories/iUserRepository";
 import { UserOutput } from "./output/userOutput";
 import { ICreateUseCase } from "./../contracts/usecases/iCreateUseCase";
 import { ICreateUserInput } from "./input/iCreateUserInput";
-import { CreateUserFailed, UserNotFound } from "./../errors";
+import { CreateUserFailed} from "./../errors";
 import { UserEntity } from "../../entities/userEntity";
 
 @injectable()
