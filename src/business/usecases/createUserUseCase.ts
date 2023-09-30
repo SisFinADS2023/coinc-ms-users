@@ -12,20 +12,17 @@ export class CreateUserUseCase implements ICreateUseCase<ICreateUserInput, UserO
     constructor(
         @inject(Symbol.for("IUserRepository"))
         private userRepository: IUserRepository
-    ) {}
-    
+    ) { }
+
     async exec(input: ICreateUserInput): Promise<UserOutput> {
         try {
-        const userEntity = new UserEntity(input.documentNumber, input.name, input.email);
-        const result = await this.userRepository.create(userEntity);
-    
-        if (!result) {
-            return left(CreateUserFailed);
-        } else {
-            return right(userEntity);
-        }
+            const userEntity = new UserEntity(input.name, input.email, input.documentNumber, input.password);
+            const user = await this.userRepository.create(userEntity);
+
+            return right(user);
+            
         } catch (ex) {
-        return left(CreateUserFailed);
+            return left(CreateUserFailed);
         }
     }
-    }
+}

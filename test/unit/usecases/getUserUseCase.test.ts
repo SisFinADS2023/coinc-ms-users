@@ -35,9 +35,10 @@ describe(GetUserUseCase.name, () => {
 
       userOutput = E.right<IError, IUserEntity>({
         userId: "123",
-        documentNumber: "12345678910",
         name: "test",
         email: "email@email.com",
+        documentNumber: "12345678910",
+        password: "123456",
       });
 
       userRepositoryMockGetFunction.mockResolvedValueOnce(userOutput);
@@ -77,3 +78,18 @@ describe(GetUserUseCase.name, () => {
     });
   });
 });
+
+
+/*
+    describe("When error", () => {
+        it("should return CreateUserFailed when an error occurs", async () => {
+            userRepositoryMockCreateFunction.mockRejectedValueOnce(
+                new Error("Error on create user")
+            );
+            result = await createUserUseCase.exec(userInput);
+
+            const userEntity = new UserEntity("Teste", "teste@email.com", "12345678910", "123456");
+            expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
+            expect(result).toEqual(E.left(CreateUserFailed));
+        });
+    });*/

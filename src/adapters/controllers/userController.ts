@@ -1,5 +1,4 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { APIGatewayProxyEvent } from "aws-lambda";
 import { injectable, inject } from "inversify";
 import * as E from "fp-ts/Either";
 import { IGetUseCase } from "./../../business/contracts/usecases/iGetUseCase";
@@ -12,8 +11,7 @@ import _ from "lodash";
 export class UserController {
   constructor(
     @inject(Symbol.for("IGetUseCase"))
-    private getUserUseCase: IGetUseCase<IGetUserInput, UserOutput>
-    
+    private getUserUseCase: IGetUseCase<IGetUserInput, UserOutput>,
     @inject(Symbol.for("IGetUseCase"))
     private createUserUseCase: ICreateUseCase<ICreateUserInput, UserOutput>
   ) {}
@@ -27,21 +25,12 @@ export class UserController {
     }
   }
 
-  async createUser(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  async createUser(userInput: ICreateUserInput): Promise<APIGatewayProxyResult> {
     try {
-      if(event.body==null)
+      if(userInput==null)
         return this.getErrorResponse(400,"Missing body content")
-      // Extrair os dados do corpo da requisição
-      const requestBody = JSON.parse(event.body);
-  
-      // Chamar o caso de uso para criar o usuário
-      const createUserInput: ICreateUserInput = {
-        name: requestBody.name,
-        email: requestBody.email,
-        documentNumber: requestBody.documentNumber,
-        password: requestBody.password
-      };
-      const result = await this.createUserUseCase.exec(createUserInput);
+      
+      const result = await this.createUserUseCase.exec(userInput);
   
       if (E.isLeft(result)) {
         // Tratar erro do caso de uso e retornar resposta de erro

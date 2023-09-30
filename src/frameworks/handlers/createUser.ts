@@ -8,10 +8,9 @@ import {
 } from "aws-lambda";
 import { UserController } from "./../../adapters/controllers/userController";
 import { container } from "./../inversify/container";
-import {
-  GetUserRequest,
-  GetUserRequestSchema,
-} from "./../../adapters/serializers/getUserRequest";
+import { CreateUserRequest
+  , CreateUserRequestSchema
+} from "./../../adapters/serializers/createUserRequest";
 import "./../models/index";
 
 export const createUser: Handler = async (
@@ -19,14 +18,15 @@ export const createUser: Handler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   try {
+    console.log(event.body);
+    
     context.callbackWaitsForEmptyEventLoop = false;
-    const userInput: GetUserRequest = GetUserRequestSchema.parse(
-      JSON.parse(JSON.stringify(event.pathParameters))
-    );
+    const userInput: CreateUserRequest = CreateUserRequestSchema.parse(
+      JSON.parse(event.body as string));
 
     const userController = container.get(UserController);
 
-    const result = await userController.getUser(userInput);
+    const result = await userController.createUser(userInput);
 
     return result;
   } catch (error) {
