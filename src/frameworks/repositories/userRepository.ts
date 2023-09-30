@@ -10,7 +10,7 @@ export class UserRepository implements IUserRepository {
   async show(userId: string): Promise<IUserEntity> {
     try {
       const user = await this.userModel.findOne({ userId }).exec();
-      return user as IUserEntity;
+      return user as unknown as IUserEntity;
     } catch (error) {
       console.log("ERRO: ", JSON.stringify(error.message));
       throw new Error(

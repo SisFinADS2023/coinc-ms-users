@@ -18,7 +18,6 @@ export const createUser: Handler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   try {
-    console.log(event.body);
     
     context.callbackWaitsForEmptyEventLoop = false;
     const userInput: CreateUserRequest = CreateUserRequestSchema.parse(

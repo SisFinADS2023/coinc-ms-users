@@ -12,7 +12,7 @@ export class UserController {
   constructor(
     @inject(Symbol.for("IGetUseCase"))
     private getUserUseCase: IGetUseCase<IGetUserInput, UserOutput>,
-    @inject(Symbol.for("IGetUseCase"))
+    @inject(Symbol.for("ICreateUseCase"))
     private createUserUseCase: ICreateUseCase<ICreateUserInput, UserOutput>
   ) {}
 

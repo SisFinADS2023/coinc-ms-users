@@ -5,10 +5,12 @@ export class UserEntity implements IUserEntity {
     constructor(
         public documentNumber: string,
         public name: string,
-        public email: string
+        public email: string,
+        public password: string
     ) {
         this.documentNumber = documentNumber;
         this.name = name;
         this.email = email;
+        this.password=password;
     }
 }

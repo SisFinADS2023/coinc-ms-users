@@ -3,4 +3,5 @@ export interface IUserEntity {
   documentNumber: String;
   name: String;
   email: String;
+  password: String;
 }
