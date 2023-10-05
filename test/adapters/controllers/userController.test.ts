@@ -10,9 +10,12 @@ import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { mock, when, instance } from "ts-mockito";
 
 import * as E from "fp-ts/Either";
+import { ICreateUserInput } from "../../../src/business/usecases/input/iCreateUserInput";
+import { ICreateUseCase } from "../../../src/business/contracts/usecases/iCreateUseCase";
 
 describe(UserController.name, () => {
   let getUserUseCaseMock: IGetUseCase<IGetUserInput, UserOutput>;
+  let createUserUseCaseMock: ICreateUseCase<ICreateUserInput, UserOutput>;
   let userController: UserController;
   let userEntity: IUserEntity;
   let userOutput: UserOutput;
@@ -21,12 +24,15 @@ describe(UserController.name, () => {
 
   beforeEach(() => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
-    userController = new UserController(instance(getUserUseCaseMock));
+    createUserUseCaseMock = mock<ICreateUseCase<ICreateUserInput, UserOutput>>();
+    userController = new UserController(instance(getUserUseCaseMock), instance(createUserUseCaseMock));
     userInput = { userId: "12345" };
     userEntity = {
       userId: userInput.userId,
       name: "Test",
       email: "test@test.com",
+      documentNumber: "12345678910",
+      password: "123456",
     };
     userOutput = E.right(userEntity);
   });

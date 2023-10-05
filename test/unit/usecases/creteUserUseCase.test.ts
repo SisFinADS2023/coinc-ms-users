@@ -25,7 +25,7 @@ describe(CreateUserUseCase.name, () => {
             show: jest.fn(),
             update: jest.fn(),
             list: jest.fn(),
-            delete: jest.fn(),
+            delete: jest.fn()
         };
         createUserUseCase = new CreateUserUseCase(userRepositoryMock);
     });
