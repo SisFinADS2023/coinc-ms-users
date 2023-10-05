@@ -23,6 +23,9 @@ describe(GetUserUseCase.name, () => {
     userRepositoryMock = {
       show: userRepositoryMockGetFunction,
       create: jest.fn(),
+      update: jest.fn(),
+      list: jest.fn(),
+      delete: jest.fn(),
     };
     getUserUseCase = new GetUserUseCase(userRepositoryMock);
   });
@@ -38,6 +41,7 @@ describe(GetUserUseCase.name, () => {
         documentNumber: "12345678910",
         name: "test",
         email: "email@email.com",
+        password:"123456"
       });
 
       userRepositoryMockGetFunction.mockResolvedValueOnce(userOutput);
