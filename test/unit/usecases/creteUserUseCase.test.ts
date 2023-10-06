@@ -47,14 +47,14 @@ describe(CreateUserUseCase.name, () => {
                 password: "123456",
             });
 
+
             const userEntity = new UserEntity("Teste", "teste@email.com", "12345678910", "123456");
+            
 
             userRepositoryMockCreateFunction.mockResolvedValueOnce(userOutput);
 
             const result = await createUserUseCase.exec(userInput);
-            expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(
-                userEntity
-            );
+            expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
             expect(result).toEqual(E.right(userOutput));
         });
     });

@@ -5,7 +5,7 @@ export interface IUserRepository {
   show(userId: string): Promise<IUserEntity>;
 
   // Cria um novo usuário
-  create(user: IUserEntity): Promise<Boolean>;
+  create(user: IUserEntity): Promise<IUserEntity>;
 
   // Atualiza um usuário existente
   update(userId: string, updatedUser: IUserEntity): Promise<IUserEntity>;
