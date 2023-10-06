@@ -1,5 +1,6 @@
 export interface ICreateUserInput {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     documentNumber: string;
     password: string;

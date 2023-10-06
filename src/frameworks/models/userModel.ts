@@ -14,4 +14,4 @@ const schema = new Schema<IUser>({
   email: { type: String, index: true, unique: true },
 });
 
-export const UserModel: Model<IUser> = model("User", schema);
+export const UserModel: Model<IUser> = model("users", schema);

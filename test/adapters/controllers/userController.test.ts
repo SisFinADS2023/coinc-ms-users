@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import { ObjectId } from "bson";
 import { APIGatewayProxyResult } from "aws-lambda";
 import { UserController } from "./../../../src/adapters/controllers/userController";
 import { IGetUseCase } from "./../../../src/business/contracts/usecases/iGetUseCase";
@@ -26,10 +27,11 @@ describe(UserController.name, () => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
     createUserUseCaseMock = mock<ICreateUseCase<ICreateUserInput, UserOutput>>();
     userController = new UserController(instance(getUserUseCaseMock), instance(createUserUseCaseMock));
-    userInput = { userId: "12345" };
+    userInput = { _id: "12345" };
     userEntity = {
-      userId: userInput.userId,
-      name: "Test",
+      _id: new ObjectId(),
+      firstName: "Test",
+      lastName: "Test",
       email: "test@test.com",
       documentNumber: "12345678910",
       password: "123456",
