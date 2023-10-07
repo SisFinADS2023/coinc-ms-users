@@ -10,6 +10,7 @@ import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { mock, when, instance } from "ts-mockito";
 
 import * as E from "fp-ts/Either";
+import { ObjectId } from "bson";
 
 describe(UserController.name, () => {
   let getUserUseCaseMock: IGetUseCase<IGetUserInput, UserOutput>;
@@ -18,14 +19,18 @@ describe(UserController.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: APIGatewayProxyResult;
+  let userId: ObjectId;
 
   beforeEach(() => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
     userController = new UserController(instance(getUserUseCaseMock));
-    userInput = { userId: "12345" };
+    userId = new ObjectId();
+    userInput = { _id: userId };
     userEntity = {
-      userId: userInput.userId,
+      _id: userId,
       name: "Test",
+      lastName: "Souza",
+      documentNumber: "111111111",
       email: "test@test.com",
     };
     userOutput = E.right(userEntity);

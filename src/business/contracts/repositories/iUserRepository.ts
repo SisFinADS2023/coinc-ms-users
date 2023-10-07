@@ -1,5 +1,6 @@
 import { IUserEntity } from "../../../entities/iUserEntity";
+import { ObjectId } from "bson";
 
 export interface IUserRepository {
-  show(userId: string): Promise<IUserEntity>;
+  show(userId: ObjectId): Promise<IUserEntity>;
 }

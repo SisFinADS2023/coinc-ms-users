@@ -34,7 +34,7 @@ export class UserController {
   private getSuccessResponse(data: Object): APIGatewayProxyResult {
     return {
       statusCode: 200,
-      body: JSON.stringify(_.omit(data, ["_tag", "_id"])),
+      body: JSON.stringify(_.omit(data, ["_tag"])),
     };
   }
 }

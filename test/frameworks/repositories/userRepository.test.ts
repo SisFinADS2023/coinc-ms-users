@@ -2,25 +2,19 @@ import "reflect-metadata";
 import { UserRepository } from "./../../../src/frameworks/repositories/userRepository";
 import { Model, Schema } from "mongoose";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
+import { ObjectId } from "bson";
 
 describe(UserRepository.name, () => {
-  let userModelFindOneMockFunction: jest.Mock;
+  let userModelFindByIdMockFunction: jest.Mock;
   let userModelMock: Model<IUserEntity>;
   let userRepository: UserRepository;
-  let userId: string;
+  let userId: ObjectId;
 
   beforeEach(() => {
-    userModelFindOneMockFunction = jest.fn();
-
-    const schema = new Schema<IUserEntity>({
-      _id: { type: Object },
-      documentNumber: { type: String, index: true, unique: true },
-      name: { type: String },
-      email: { type: String, index: true, unique: true },
-    });
+    userModelFindByIdMockFunction = jest.fn();
 
     userModelMock = {
-      findOne: userModelFindOneMockFunction,
+      findById: userModelFindByIdMockFunction,
     } as unknown as Model<IUserEntity>;
 
     userRepository = new UserRepository(userModelMock);
@@ -28,42 +22,44 @@ describe(UserRepository.name, () => {
 
   describe("When success", () => {
     it("should return the expected user from the collection", async () => {
-      userId = "123";
-
       const userMock = {
-        userId: "123",
-        name: "Maria Fernanda de Souza",
+        _id: userId,
+        name: "Maria Fernanda",
+        lastName: "Souza",
+        documentNumber: "11111111",
         email: "mariafernanda@email.com",
       };
 
       const userDocumentMock = {
         ...userMock,
-        _id: "object-id",
         __v: 1,
-
         toObject: jest.fn(),
       };
 
-      userModelFindOneMockFunction.mockResolvedValueOnce(userDocumentMock);
+      userModelFindByIdMockFunction.mockResolvedValueOnce(userDocumentMock);
       const result = await userRepository.show(userId);
-      expect(userModelFindOneMockFunction).toHaveBeenCalledWith({ userId });
+      expect(userModelFindByIdMockFunction).toHaveBeenCalledWith(userId);
       expect(result).toEqual(userDocumentMock);
     });
   });
 
-  describe("When error", () => {
-    it("should return UserNotFound when user is not found", async () => {
-      userModelFindOneMockFunction.mockResolvedValueOnce(null);
+  describe("When user is not found", () => {
+    it("should return null", async () => {
+      userModelFindByIdMockFunction.mockResolvedValueOnce(null);
       let result = await userRepository.show(userId);
 
-      expect(userModelMock.findOne).toHaveBeenCalledWith({ userId });
+      expect(userModelMock.findById).toHaveBeenCalledWith(userId);
       expect(result).toEqual(null);
     });
+  });
 
-    it("should return GetUserFailed when an error occurs", async () => {
+  describe("when error occurs", () => {
+    it("should throw internal server error", async () => {
       const errorMock = new Error("Test Error");
-      userModelFindOneMockFunction.mockRejectedValueOnce(errorMock);
-      expect(userModelMock.findOne).toThrow(errorMock);
+      
+      userModelFindByIdMockFunction.mockRejectedValueOnce(errorMock);
+
+      await expect(userRepository.show(userId)).rejects.toThrowError(errorMock);
     });
   });
 });
