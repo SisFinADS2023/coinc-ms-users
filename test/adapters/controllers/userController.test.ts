@@ -28,12 +28,13 @@ describe(UserController.name, () => {
     userController = new UserController(instance(getUserUseCaseMock), instance(createUserUseCaseMock));
     userInput = { userId: "12345" };
     userEntity = {
-      userId: userInput.userId,
+      _id: userInput.userId,
       name: "Test",
       email: "test@test.com",
       documentNumber: "12345678910",
       password: "123456",
     };
+    
     userOutput = E.right(userEntity);
   });
 

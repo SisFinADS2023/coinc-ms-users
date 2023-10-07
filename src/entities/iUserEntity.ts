@@ -1,5 +1,5 @@
 export interface IUserEntity {
-  userId: String;
+  _id: String;
   documentNumber: String;
   name: String;
   email: String;

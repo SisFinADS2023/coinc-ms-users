@@ -1,7 +1,7 @@
 import { IUserEntity } from "./iUserEntity";
 
 export class UserEntity implements IUserEntity {
-    public userId: string;
+    public _id: string;
     constructor(
         public name: string,
         public email: string,

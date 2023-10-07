@@ -8,27 +8,13 @@ export class UserRepository implements IUserRepository {
   public constructor(@inject(UserModel) private userModel: typeof UserModel) {}
   
   async show(userId: string): Promise<IUserEntity> {
-    try {
-      const user = await this.userModel.findOne({ userId }).exec();
-      return user as unknown as IUserEntity;
-    } catch (error) {
-      console.log("ERRO: ", JSON.stringify(error.message));
-      throw new Error(
-        `Internal Server Error: ${JSON.stringify(error.message)}`
-      );
-    }
+      const user = await this.userModel.findOne({ userId });
+      return user as IUserEntity;
   }
 
-  async create(userObj: IUserEntity): Promise<Boolean> {
-    try {
+  async create(userObj: IUserEntity): Promise<IUserEntity> {
       const user = await this.userModel.create(userObj);
-      return true;
-    } catch (error) {
-      console.log("ERRO: ", JSON.stringify(error.message));
-      throw new Error(
-        `Internal Server Error: ${JSON.stringify(error.message)}`
-      );
-    }
+      return user;
   }
   async update(userId: string, updatedUser: IUserEntity): Promise<IUserEntity> {
     throw new Error("Method not implemented.");
