@@ -1,7 +1,10 @@
+import { ObjectId } from 'bson';
+
 export interface IUserEntity {
-  _id: String;
+  _id: ObjectId;
   documentNumber: String;
-  name: String;
+  firstName: String;
+  lastName: String;
   email: String;
   password: String;
 }

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import { ObjectId } from 'bson'
 import { CreateUserUseCase } from "./../../../src/business/usecases/createUserUseCase";
 import { IUserRepository } from "./../../../src/business/contracts/repositories/iUserRepository";
 import { UserOutput } from "./../../../src/business/usecases/output/userOutput";
@@ -33,23 +34,26 @@ describe(CreateUserUseCase.name, () => {
     describe("When sucess", () => {
         it("should create a new user", async () => {
             userInput = {
-                name: "Teste",
+                firstName: "Teste",
+                lastName: "Teste",
                 email: "teste@email.com",
                 documentNumber: "12345678910",
                 password: "123456",
             }
 
-            userOutput = E.right<IError, IUserEntity>({
-                userId: "123",
-                name: "Teste",
+            
+            userOutput = E.right<IError, IUserEntity>({                
+                _id: new ObjectId(),
+                firstName: "Teste",
+                lastName: "Teste",
                 email: "teste@email.com",
                 documentNumber: "12345678910",
                 password: "123456",
             });
 
 
-            const userEntity = new UserEntity("Teste", "teste@email.com", "12345678910", "123456");
-            
+            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "12345678910", "123456");
+
 
             userRepositoryMockCreateFunction.mockResolvedValueOnce(userOutput);
 
@@ -67,7 +71,7 @@ describe(CreateUserUseCase.name, () => {
             );
             result = await createUserUseCase.exec(userInput);
 
-            const userEntity = new UserEntity("Teste", "teste@email.com", "12345678910", "123456");
+            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "12345678910", "123456");
             expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
             expect(result).toEqual(E.left(CreateUserFailed));
         });

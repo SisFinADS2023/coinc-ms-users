@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { UserRepository } from "./../../../src/frameworks/repositories/userRepository";
 import { Model, Schema } from "mongoose";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
+import { ObjectId } from "bson";
 import { when } from "ts-mockito";
 import * as E from "fp-ts/Either";
 
@@ -52,21 +53,23 @@ describe(UserRepository.name, () => {
     it("should return a user when user is created", async () => {
 
      const userEntity = {
-        _id: "12345",
-        name: "Test",
-        email: "test@test.com",
-        password: "123456",
-        documentNumber: "12345678910",
+      _id: new ObjectId("000000000000000000000000"),
+      firstName: "Teste",
+      lastName: "Teste",
+      email: "teste@email.com",
+      documentNumber: "12345678910",
+      password: "123456",
         }
 
       userModelCreateMockFunction.mockResolvedValueOnce(userEntity)
       const result = await userRepository.create(userEntity);
       expect(result).toEqual({
-        _id: "12345",
-        name: "Test",
-        email: "test@test.com",
-        password: "123456",
-        documentNumber: "12345678910",
+                _id: new ObjectId("000000000000000000000000"),
+                firstName: "Teste",
+                lastName: "Teste",
+                email: "teste@email.com",
+                documentNumber: "12345678910",
+                password: "123456",
       });
   });
 
@@ -89,9 +92,9 @@ describe(UserRepository.name, () => {
       await expect(userRepository.show(userId)).rejects.toThrowError(errorMock);
     });
     const userEntity = {
-      name: "Test",
-      email: "test@test.com",
-      password: "123456",
+      firstName: "Teste",
+      lastName: "Teste",
+      email: "teste@email.com",
       documentNumber: "12345678910",
       }
 
