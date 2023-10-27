@@ -10,9 +10,20 @@ provider:
   environment:
     MONGO_URI: ${env:MONGO_URI}
   timeout: 30
-
+  ##copilot################
+  apiGateway:
+    restApiId:
+      Ref: ApiGatewayRestApi
+    restApiRootResourceId:
+      Fn::GetAtt:
+        - ApiGatewayRestApi
+        - RootResourceId
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+    binaryMediaTypes:
+      - 'application/json'
+  #######################
 custom:
-  # webpackIncludeModules: true
   esbuild:
     bundle: true
     minify: false
@@ -33,6 +44,14 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+          documentation:
+            summary: Get User
+            description: This endpoint retrieves a user by ID
+            requestModels:
+              'application/json': ${file(models/getUser-request.json)}
+            responseModels:
+              'application/json': ${file(models/getUser-response.json)}
+
   createUser: 
     handler: ${self:custom.handlers}/createUser.createUser
     tracing: true
