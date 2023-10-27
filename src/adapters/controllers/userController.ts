@@ -15,6 +15,9 @@ export class UserController {
   async getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
     const result = await this.getUserUseCase.exec(input);
     if (E.isLeft(result)) {
+      if ((result.left.code = "USC-002")) {
+        return this.getErrorResponse(404, result.left);
+      }
       return this.getErrorResponse(400, result.left);
     } else {
       return this.getSuccessResponse(result.right);

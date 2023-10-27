@@ -1,7 +1,8 @@
 import { Document } from "mongoose";
+import { BSON } from "bsonfy";
 
 export interface IUserModel extends Document {
-  userId: string;
+  _id: BSON.ObjectId;
   name: string;
   email: string;
 }

@@ -1,7 +1,7 @@
 import { Schema, model, Model } from "mongoose";
 import * as mongoose from "mongoose";
 import { IUserEntity } from "../../entities/iUserEntity";
-import { ObjectId } from "bson";
+import { Types } from "mongoose";
 
 const schema = new Schema<IUserEntity>({
   name: { type: String },
@@ -10,4 +10,7 @@ const schema = new Schema<IUserEntity>({
   email: { type: String, index: true, unique: true },
 });
 
-export const UserModel: Model<IUserEntity> = model<IUserEntity>("users", schema);
+export const UserModel: Model<IUserEntity> = model<IUserEntity>(
+  "users",
+  schema
+);

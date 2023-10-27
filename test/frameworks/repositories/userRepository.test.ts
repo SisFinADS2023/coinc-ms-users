@@ -2,13 +2,13 @@ import "reflect-metadata";
 import { UserRepository } from "./../../../src/frameworks/repositories/userRepository";
 import { Model, Schema } from "mongoose";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
-import { ObjectId } from "bson";
+import { BSON } from "bsonfy";
 
 describe(UserRepository.name, () => {
   let userModelFindByIdMockFunction: jest.Mock;
   let userModelMock: Model<IUserEntity>;
   let userRepository: UserRepository;
-  let userId: ObjectId;
+  let userId: string;
 
   beforeEach(() => {
     userModelFindByIdMockFunction = jest.fn();
@@ -56,7 +56,7 @@ describe(UserRepository.name, () => {
   describe("when error occurs", () => {
     it("should throw internal server error", async () => {
       const errorMock = new Error("Test Error");
-      
+
       userModelFindByIdMockFunction.mockRejectedValueOnce(errorMock);
 
       await expect(userRepository.show(userId)).rejects.toThrowError(errorMock);

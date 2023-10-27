@@ -18,7 +18,7 @@ describe(GetUserUseCase.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: UserOutput;
-  let userId: ObjectId;
+  let userId: string;
 
   beforeEach(() => {
     userRepositoryMockGetFunction = jest.fn();
@@ -26,17 +26,17 @@ describe(GetUserUseCase.name, () => {
       show: userRepositoryMockGetFunction,
     };
     getUserUseCase = new GetUserUseCase(userRepositoryMock);
-    userId = new ObjectId();
+    userId = "123456";
   });
 
   describe("When success", () => {
     it("should return a user when found", async () => {
       userInput = {
-        _id: userId,
+        userId: userId,
       };
 
       userOutput = E.right<IError, IUserEntity>({
-        _id: userId,
+        _id: new ObjectId(123456),
         name: "João",
         lastName: "Souza",
         documentNumber: "11111111111",
@@ -48,7 +48,7 @@ describe(GetUserUseCase.name, () => {
       result = await getUserUseCase.exec(userInput);
 
       expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput._id
+        userInput.userId
       );
       expect(result).toEqual(E.right(userOutput));
     });
@@ -58,7 +58,7 @@ describe(GetUserUseCase.name, () => {
     it("should return UserNotFound when user is not found", async () => {
       userRepositoryMockGetFunction.mockResolvedValueOnce(null);
 
-      userInput._id = userId;
+      userInput.userId = userId;
 
       result = await getUserUseCase.exec(userInput);
 
@@ -74,7 +74,7 @@ describe(GetUserUseCase.name, () => {
       result = await getUserUseCase.exec(userInput);
 
       expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput._id
+        userInput.userId
       );
       expect(result).toEqual(E.left(GetUserFailed));
     });
