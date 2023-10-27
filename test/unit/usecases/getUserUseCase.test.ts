@@ -7,6 +7,7 @@ import { IGetUserInput } from "./../../../src/business/usecases/input/iGetUserIn
 import { UserNotFound, GetUserFailed } from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { IError } from "./../../../src/business/contracts/iError";
+import { ObjectId } from 'bson'
 
 import * as E from "fp-ts/Either";
 
@@ -33,13 +34,14 @@ describe(GetUserUseCase.name, () => {
   describe("When success", () => {
     it("should return a user when found", async () => {
       userInput = {
-        userId: "123",
+        _id: "123",
       };
 
       userOutput = E.right<IError, IUserEntity>({
-        userId: "123",
+        _id: new ObjectId(),
         documentNumber: "12345678910",
-        name: "test",
+        firstName: "test",
+        lastName: "test",
         email: "email@email.com",
         password:"123456"
       });
@@ -49,7 +51,7 @@ describe(GetUserUseCase.name, () => {
       result = await getUserUseCase.exec(userInput);
 
       expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput.userId
+        userInput._id
       );
       expect(result).toEqual(E.right(userOutput));
     });
@@ -59,7 +61,7 @@ describe(GetUserUseCase.name, () => {
     it("should return UserNotFound when user is not found", async () => {
       userRepositoryMockGetFunction.mockResolvedValueOnce(null);
 
-      userInput.userId = "123";
+      userInput._id = "123";
 
       result = await getUserUseCase.exec(userInput);
 
@@ -75,7 +77,7 @@ describe(GetUserUseCase.name, () => {
       result = await getUserUseCase.exec(userInput);
 
       expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput.userId
+        userInput._id
       );
       expect(result).toEqual(E.left(GetUserFailed));
     });

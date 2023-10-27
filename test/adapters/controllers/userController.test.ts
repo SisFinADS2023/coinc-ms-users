@@ -36,6 +36,7 @@ describe(UserController.name, () => {
       documentNumber: "12345678910",
       password: "123456",
     };
+    
     userOutput = E.right(userEntity);
   });
 
@@ -67,6 +68,39 @@ describe(UserController.name, () => {
       );
 
       result = await userController.getUser(userInput);
+      expect(result.statusCode).toEqual(400);
+      expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));
+    });
+  });
+
+  describe("When create User", () => {
+    it("should return a user when created", async () => {
+      const createUserInput: ICreateUserInput = {
+      firstName: "Test",
+      lastName: "Test",
+      email: "test@test.com",
+      documentNumber: "12345678910",
+      password: "123456",
+      };
+      when(createUserUseCaseMock.exec(createUserInput)).thenResolve(userOutput);
+      result = await userController.createUser(createUserInput);
+
+      expect(result.statusCode).toBe(200);
+      expect(result.body).toEqual(JSON.stringify(userEntity));
+    });
+  });
+
+  describe("When error", () => {
+    it("should return CreateUserFailed when error is thown", async () => {
+      const createUserInput: ICreateUserInput = {
+        firstName: "Test",
+        lastName: "Test",
+        email: "test@test.com",
+        documentNumber: "12345678910",
+        password: "123456",
+      };
+      when(createUserUseCaseMock.exec(createUserInput)).thenResolve(E.left(GetUserFailed));
+      result = await userController.createUser(createUserInput);
       expect(result.statusCode).toEqual(400);
       expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));
     });

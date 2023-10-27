@@ -1,15 +1,11 @@
-import { Document, Schema, model, Model } from "mongoose";
+import {  Schema, model, Model } from "mongoose";
+import { IUserEntity } from "../../entities/iUserEntity";
 
-interface IUser extends Document {
-  documentNumber: string;
-  lastName: string;
-  email: string;
-}
-
-const schema = new Schema<IUser>({
+const schema = new Schema<IUserEntity>({
   documentNumber:{type: String,index: true,unique: true },
+  firstName: { type: String },
   lastName: { type: String },
   email: { type: String, index: true, unique: true },
 });
 
-export const UserModel: Model<IUser> = model("users", schema);
+export const UserModel: Model<IUserEntity> = model("User", schema);
