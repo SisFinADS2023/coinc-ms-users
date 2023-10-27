@@ -18,6 +18,7 @@ export class UserController {
 
   async getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
     const result = await this.getUserUseCase.exec(input);
+    console.log(result);
     if (E.isLeft(result)) {
       return this.getErrorResponse(400, result.left);
     } else {
@@ -61,7 +62,7 @@ export class UserController {
   private getSuccessResponse(data: Object): APIGatewayProxyResult {
     return {
       statusCode: 200,
-      body: JSON.stringify(_.omit(data, ["_tag", "_id"])),
+      body: JSON.stringify(_.omit(data, ["_tag"])),
     };
   }
 }
