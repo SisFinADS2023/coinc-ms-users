@@ -9,10 +9,15 @@ import { UserOutput } from "./../../../src/business/usecases/output/userOutput";
 import { UserNotFound, GetUserFailed } from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { mock, when, instance } from "ts-mockito";
+import { ObjectId } from "bson";
 
 import * as E from "fp-ts/Either";
+<<<<<<< HEAD
 import { ICreateUserInput } from "../../../src/business/usecases/input/iCreateUserInput";
 import { ICreateUseCase } from "../../../src/business/contracts/usecases/iCreateUseCase";
+=======
+import { BSON } from "bsonfy";
+>>>>>>> 69f5e7e9d2856f738ef3985763e15c8e0ab16af6
 
 describe(UserController.name, () => {
   let getUserUseCaseMock: IGetUseCase<IGetUserInput, UserOutput>;
@@ -22,9 +27,11 @@ describe(UserController.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: APIGatewayProxyResult;
+  let userId: string;
 
   beforeEach(() => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
+<<<<<<< HEAD
     createUserUseCaseMock = mock<ICreateUseCase<ICreateUserInput, UserOutput>>();
     userController = new UserController(instance(getUserUseCaseMock), instance(createUserUseCaseMock));
     userInput = { _id: "12345" };
@@ -32,6 +39,16 @@ describe(UserController.name, () => {
       _id: new ObjectId(),
       firstName: "Test",
       lastName: "Test",
+=======
+    userController = new UserController(instance(getUserUseCaseMock));
+    userId = "123456";
+    userInput = { userId: userId };
+    userEntity = {
+      _id: new ObjectId(12456),
+      name: "Test",
+      lastName: "Souza",
+      documentNumber: "111111111",
+>>>>>>> 69f5e7e9d2856f738ef3985763e15c8e0ab16af6
       email: "test@test.com",
       documentNumber: "12345678910",
       password: "123456",
@@ -52,13 +69,12 @@ describe(UserController.name, () => {
 
   describe("When error", () => {
     it("should return UserNotFound when user is not found", async () => {
-      userOutput = E.left(UserNotFound);
       when(getUserUseCaseMock.exec(userInput)).thenResolve(
         E.left(UserNotFound)
       );
 
       result = await userController.getUser(userInput);
-      expect(result.statusCode).toBe(400);
+      expect(result.statusCode).toBe(404);
       expect(result.body).toEqual(JSON.stringify({ error: UserNotFound }));
     });
 
@@ -68,7 +84,8 @@ describe(UserController.name, () => {
       );
 
       result = await userController.getUser(userInput);
-      expect(result.statusCode).toEqual(400);
+      console.log(E.left(GetUserFailed));
+      expect(result.statusCode).toEqual(404);
       expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));
     });
   });

@@ -20,6 +20,9 @@ export class UserController {
     const result = await this.getUserUseCase.exec(input);
     console.log(result);
     if (E.isLeft(result)) {
+      if ((result.left.code = "USC-002")) {
+        return this.getErrorResponse(404, result.left);
+      }
       return this.getErrorResponse(400, result.left);
     } else {
       return this.getSuccessResponse(result.right);
