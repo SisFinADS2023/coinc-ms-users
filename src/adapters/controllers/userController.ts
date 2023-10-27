@@ -15,6 +15,9 @@ export class UserController {
   async getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
     const result = await this.getUserUseCase.exec(input);
     if (E.isLeft(result)) {
+      if ((result.left.code = "USC-002")) {
+        return this.getErrorResponse(404, result.left);
+      }
       return this.getErrorResponse(400, result.left);
     } else {
       return this.getSuccessResponse(result.right);
@@ -34,7 +37,7 @@ export class UserController {
   private getSuccessResponse(data: Object): APIGatewayProxyResult {
     return {
       statusCode: 200,
-      body: JSON.stringify(_.omit(data, ["_tag", "_id"])),
+      body: JSON.stringify(_.omit(data, ["_tag"])),
     };
   }
 }

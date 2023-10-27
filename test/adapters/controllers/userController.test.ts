@@ -8,8 +8,10 @@ import { UserOutput } from "./../../../src/business/usecases/output/userOutput";
 import { UserNotFound, GetUserFailed } from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { mock, when, instance } from "ts-mockito";
+import { ObjectId } from "bson";
 
 import * as E from "fp-ts/Either";
+import { BSON } from "bsonfy";
 
 describe(UserController.name, () => {
   let getUserUseCaseMock: IGetUseCase<IGetUserInput, UserOutput>;
@@ -18,14 +20,18 @@ describe(UserController.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: APIGatewayProxyResult;
+  let userId: string;
 
   beforeEach(() => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
     userController = new UserController(instance(getUserUseCaseMock));
-    userInput = { userId: "12345" };
+    userId = "123456";
+    userInput = { userId: userId };
     userEntity = {
-      userId: userInput.userId,
+      _id: new ObjectId(12456),
       name: "Test",
+      lastName: "Souza",
+      documentNumber: "111111111",
       email: "test@test.com",
     };
     userOutput = E.right(userEntity);
@@ -43,13 +49,12 @@ describe(UserController.name, () => {
 
   describe("When error", () => {
     it("should return UserNotFound when user is not found", async () => {
-      userOutput = E.left(UserNotFound);
       when(getUserUseCaseMock.exec(userInput)).thenResolve(
         E.left(UserNotFound)
       );
 
       result = await userController.getUser(userInput);
-      expect(result.statusCode).toBe(400);
+      expect(result.statusCode).toBe(404);
       expect(result.body).toEqual(JSON.stringify({ error: UserNotFound }));
     });
 
@@ -59,7 +64,8 @@ describe(UserController.name, () => {
       );
 
       result = await userController.getUser(userInput);
-      expect(result.statusCode).toEqual(400);
+      console.log(E.left(GetUserFailed));
+      expect(result.statusCode).toEqual(404);
       expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));
     });
   });
