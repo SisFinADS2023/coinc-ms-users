@@ -22,21 +22,27 @@ describe(UserController.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: APIGatewayProxyResult;
+  let userId: string;
 
   beforeEach(() => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
-    createUserUseCaseMock = mock<ICreateUseCase<ICreateUserInput, UserOutput>>();
-    userController = new UserController(instance(getUserUseCaseMock), instance(createUserUseCaseMock));
+    createUserUseCaseMock =
+      mock<ICreateUseCase<ICreateUserInput, UserOutput>>();
+    userController = new UserController(
+      instance(getUserUseCaseMock),
+      instance(createUserUseCaseMock)
+    );
     userInput = { _id: "12345" };
+    userId = "123456";
     userEntity = {
-      _id: new ObjectId(),
-      firstName: "Test",
+      _id: new ObjectId(123456),
+      name: "Test",
       lastName: "Test",
-      email: "test@test.com",
       documentNumber: "12345678910",
+      email: "test@test.com",
       password: "123456",
     };
-    
+
     userOutput = E.right(userEntity);
   });
 
@@ -52,13 +58,12 @@ describe(UserController.name, () => {
 
   describe("When error", () => {
     it("should return UserNotFound when user is not found", async () => {
-      userOutput = E.left(UserNotFound);
       when(getUserUseCaseMock.exec(userInput)).thenResolve(
         E.left(UserNotFound)
       );
 
       result = await userController.getUser(userInput);
-      expect(result.statusCode).toBe(400);
+      expect(result.statusCode).toBe(404);
       expect(result.body).toEqual(JSON.stringify({ error: UserNotFound }));
     });
 
@@ -68,7 +73,8 @@ describe(UserController.name, () => {
       );
 
       result = await userController.getUser(userInput);
-      expect(result.statusCode).toEqual(400);
+      console.log(E.left(GetUserFailed));
+      expect(result.statusCode).toEqual(404);
       expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));
     });
   });
@@ -76,11 +82,11 @@ describe(UserController.name, () => {
   describe("When create User", () => {
     it("should return a user when created", async () => {
       const createUserInput: ICreateUserInput = {
-      firstName: "Test",
-      lastName: "Test",
-      email: "test@test.com",
-      documentNumber: "12345678910",
-      password: "123456",
+        firstName: "Test",
+        lastName: "Test",
+        email: "test@test.com",
+        documentNumber: "12345678910",
+        password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(userOutput);
       result = await userController.createUser(createUserInput);
@@ -99,7 +105,9 @@ describe(UserController.name, () => {
         documentNumber: "12345678910",
         password: "123456",
       };
-      when(createUserUseCaseMock.exec(createUserInput)).thenResolve(E.left(GetUserFailed));
+      when(createUserUseCaseMock.exec(createUserInput)).thenResolve(
+        E.left(GetUserFailed)
+      );
       result = await userController.createUser(createUserInput);
       expect(result.statusCode).toEqual(400);
       expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));

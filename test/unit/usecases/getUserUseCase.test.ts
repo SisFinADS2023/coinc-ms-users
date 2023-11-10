@@ -7,7 +7,7 @@ import { IGetUserInput } from "./../../../src/business/usecases/input/iGetUserIn
 import { UserNotFound, GetUserFailed } from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { IError } from "./../../../src/business/contracts/iError";
-import { ObjectId } from 'bson'
+import { ObjectId } from "bson";
 
 import * as E from "fp-ts/Either";
 
@@ -18,6 +18,7 @@ describe(GetUserUseCase.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: UserOutput;
+  let userId: string;
 
   beforeEach(() => {
     userRepositoryMockGetFunction = jest.fn();
@@ -29,6 +30,7 @@ describe(GetUserUseCase.name, () => {
       delete: jest.fn(),
     };
     getUserUseCase = new GetUserUseCase(userRepositoryMock);
+    userId = "123456";
   });
 
   describe("When success", () => {
@@ -38,21 +40,19 @@ describe(GetUserUseCase.name, () => {
       };
 
       userOutput = E.right<IError, IUserEntity>({
-        _id: new ObjectId(),
-        documentNumber: "12345678910",
-        firstName: "test",
-        lastName: "test",
+        _id: new ObjectId(123456),
+        name: "João",
+        lastName: "Souza",
+        documentNumber: "11111111111",
         email: "email@email.com",
-        password:"123456"
+        password: "123456",
       });
 
       userRepositoryMockGetFunction.mockResolvedValueOnce(userOutput);
 
       result = await getUserUseCase.exec(userInput);
 
-      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput._id
-      );
+      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(userInput._id);
       expect(result).toEqual(E.right(userOutput));
     });
   });
@@ -65,7 +65,7 @@ describe(GetUserUseCase.name, () => {
 
       result = await getUserUseCase.exec(userInput);
 
-      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith("123");
+      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(userId);
       expect(result).toEqual(E.left(UserNotFound));
     });
 
@@ -76,9 +76,7 @@ describe(GetUserUseCase.name, () => {
 
       result = await getUserUseCase.exec(userInput);
 
-      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput._id
-      );
+      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(userInput._id);
       expect(result).toEqual(E.left(GetUserFailed));
     });
   });
