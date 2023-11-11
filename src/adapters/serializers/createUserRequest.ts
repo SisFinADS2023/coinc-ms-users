@@ -1,12 +1,12 @@
-import * as z from "zod"
+import * as z from "zod";
 
 /**firstName e lastName */
 export const CreateUserRequestSchema = z.object({
-    firstName: z.string().nonempty(),
-    lastName: z.string().nonempty(),
-    email: z.string().nonempty(),
-    documentNumber: z.string().nonempty(),
-    password: z.string().nonempty()
-})
+  name: z.string().nonempty(),
+  lastName: z.string().nonempty(),
+  email: z.string().nonempty(),
+  documentNumber: z.string().nonempty(),
+  password: z.string().nonempty(),
+});
 
-export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>
+export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;

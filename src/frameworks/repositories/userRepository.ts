@@ -16,7 +16,8 @@ export class UserRepository implements IUserRepository {
 
   async create(userObj: IUserEntity): Promise<IUserEntity> {
     const user = await this.userModel.create(userObj);
-    return user;
+
+    return user as IUserEntity;
   }
 
   async update(userId: string, updatedUser: IUserEntity): Promise<IUserEntity> {
