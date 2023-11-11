@@ -1,7 +1,7 @@
 app: ms-users
 service: ms-users
 useDotenv: true
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -10,9 +10,20 @@ provider:
   environment:
     MONGO_URI: ${env:MONGO_URI}
   timeout: 30
-
+  ##copilot################
+  apiGateway:
+    restApiId:
+      Ref: ApiGatewayRestApi
+    restApiRootResourceId:
+      Fn::GetAtt:
+        - ApiGatewayRestApi
+        - RootResourceId
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+    binaryMediaTypes:
+      - "application/json"
+  #######################
 custom:
-  # webpackIncludeModules: true
   esbuild:
     bundle: true
     minify: false
@@ -31,8 +42,21 @@ functions:
           path: ${self:custom.baseApi}/{userId}
           method: get
           cors:
-            origin: '*'
-            headers: '*'
+            origin: "*"
+            headers: "*"
+  createUser:
+    handler: ${self:custom.handlers}/createUser.createUser
+    tracing: true
+    url:
+      authorizer: aws_iam
+    events:
+      - http:
+          path: ${self:custom.baseApi}
+          method: post
+          cors:
+            origin: "*"
+            headers: "*"
+
 plugins:
   - serverless-esbuild
   - serverless-offline

@@ -1,7 +1,5 @@
 import { Schema, model, Model } from "mongoose";
-import * as mongoose from "mongoose";
 import { IUserEntity } from "../../entities/iUserEntity";
-import { Types } from "mongoose";
 
 const schema = new Schema<IUserEntity>({
   name: { type: String },

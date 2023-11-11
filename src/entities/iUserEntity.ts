@@ -6,4 +6,5 @@ export interface IUserEntity {
   lastName: String;
   documentNumber: String;
   email: String;
+  password: String;
 }

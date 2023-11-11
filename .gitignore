@@ -11,5 +11,5 @@ jspm_packages
 .vscode
 node_modules
 package-lock.json
-.env.dev
-.env.pro
+.env*
+.env.*
