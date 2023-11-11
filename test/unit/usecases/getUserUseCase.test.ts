@@ -36,7 +36,7 @@ describe(GetUserUseCase.name, () => {
   describe("When success", () => {
     it("should return a user when found", async () => {
       userInput = {
-        _id: "123",
+        _id: "123456",
       };
 
       userOutput = E.right<IError, IUserEntity>({
@@ -61,7 +61,7 @@ describe(GetUserUseCase.name, () => {
     it("should return UserNotFound when user is not found", async () => {
       userRepositoryMockGetFunction.mockResolvedValueOnce(null);
 
-      userInput._id = "123";
+      userInput._id = "123456";
 
       result = await getUserUseCase.exec(userInput);
 

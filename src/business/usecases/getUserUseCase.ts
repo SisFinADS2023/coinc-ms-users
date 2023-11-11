@@ -15,7 +15,7 @@ export class GetUserUseCase implements IGetUseCase<IGetUserInput, UserOutput> {
 
   async exec(input: IGetUserInput): Promise<UserOutput> {
     try {
-      const user = await this.userRepository.show(input.userId);
+      const user = await this.userRepository.show(input._id);
       if (!user) {
         return left(UserNotFound);
       } else {

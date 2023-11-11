@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-/**firstName e lastName */
+/**name e lastName */
 export const CreateUserRequestSchema = z.object({
   name: z.string().nonempty(),
   lastName: z.string().nonempty(),

@@ -2,13 +2,13 @@ import "reflect-metadata";
 import { UserRepository } from "./../../../src/frameworks/repositories/userRepository";
 import { Model, Schema } from "mongoose";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
-import { BSON } from "bsonfy";
+
 
 describe(UserRepository.name, () => {
   let userModelFindByIdMockFunction: jest.Mock;
   let userModelMock: Model<IUserEntity>;
   let userRepository: UserRepository;
-  let userId: string;
+  let _id: string;
 
   beforeEach(() => {
     userModelFindByIdMockFunction = jest.fn();
@@ -23,7 +23,7 @@ describe(UserRepository.name, () => {
   describe("When success", () => {
     it("should return the expected user from the collection", async () => {
       const userMock = {
-        _id: userId,
+        _id: _id,
         name: "Maria Fernanda",
         lastName: "Souza",
         documentNumber: "11111111",
@@ -37,8 +37,8 @@ describe(UserRepository.name, () => {
       };
 
       userModelFindByIdMockFunction.mockResolvedValueOnce(userDocumentMock);
-      const result = await userRepository.show(userId);
-      expect(userModelFindByIdMockFunction).toHaveBeenCalledWith(userId);
+      const result = await userRepository.show(_id);
+      expect(userModelFindByIdMockFunction).toHaveBeenCalledWith(_id);
       expect(result).toEqual(userDocumentMock);
     });
   });
@@ -46,9 +46,9 @@ describe(UserRepository.name, () => {
   describe("When user is not found", () => {
     it("should return null", async () => {
       userModelFindByIdMockFunction.mockResolvedValueOnce(null);
-      let result = await userRepository.show(userId);
+      let result = await userRepository.show(_id);
 
-      expect(userModelMock.findById).toHaveBeenCalledWith(userId);
+      expect(userModelMock.findById).toHaveBeenCalledWith(_id);
       expect(result).toEqual(null);
     });
   });
@@ -59,7 +59,7 @@ describe(UserRepository.name, () => {
 
       userModelFindByIdMockFunction.mockRejectedValueOnce(errorMock);
 
-      await expect(userRepository.show(userId)).rejects.toThrowError(errorMock);
+      await expect(userRepository.show(_id)).rejects.toThrowError(errorMock);
     });
   });
 });

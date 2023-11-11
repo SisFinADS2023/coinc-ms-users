@@ -34,7 +34,7 @@ describe(CreateUserUseCase.name, () => {
     describe("When sucess", () => {
         it("should create a new user", async () => {
             userInput = {
-                firstName: "Teste",
+                name: "Teste",
                 lastName: "Teste",
                 email: "teste@email.com",
                 documentNumber: "12345678910",
@@ -44,7 +44,7 @@ describe(CreateUserUseCase.name, () => {
             
             userOutput = E.right<IError, IUserEntity>({                
                 _id: new ObjectId(),
-                firstName: "Teste",
+                name: "Teste",
                 lastName: "Teste",
                 email: "teste@email.com",
                 documentNumber: "12345678910",

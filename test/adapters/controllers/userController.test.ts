@@ -82,7 +82,7 @@ describe(UserController.name, () => {
   describe("When create User", () => {
     it("should return a user when created", async () => {
       const createUserInput: ICreateUserInput = {
-        firstName: "Test",
+       name: "Test",
         lastName: "Test",
         email: "test@test.com",
         documentNumber: "12345678910",
@@ -99,7 +99,7 @@ describe(UserController.name, () => {
   describe("When error", () => {
     it("should return CreateUserFailed when error is thown", async () => {
       const createUserInput: ICreateUserInput = {
-        firstName: "Test",
+       name: "Test",
         lastName: "Test",
         email: "test@test.com",
         documentNumber: "12345678910",
