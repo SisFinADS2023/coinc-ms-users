@@ -39,7 +39,7 @@ functions:
       authorizer: aws_iam
     events:
       - http:
-          path: ${self:custom.baseApi}/{userId}
+          path: ${self:custom.baseApi}/{_id}
           method: get
           cors:
             origin: "*"
