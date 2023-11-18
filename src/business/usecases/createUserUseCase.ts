@@ -22,20 +22,17 @@ export class CreateUserUseCase
         input.name,
         input.lastName,
         input.email,
-        input.documentNumber,
         input.password
       );
 
       const result = await this.userRepository.create(userEntity);
 
       if (!result) {
-        console.log("ressult: ", result);
         return left(CreateUserFailed);
       } else {
         return right(result);
       }
     } catch (ex) {
-      console.log("EXCETI", ex);
       return left(CreateUserFailed);
     }
   }

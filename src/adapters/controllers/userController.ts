@@ -18,7 +18,6 @@ export class UserController {
 
   async getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
     const result = await this.getUserUseCase.exec(input);
-    console.log(result);
     if (E.isLeft(result)) {
       if ((result.left.code = "USC-002")) {
         return this.getErrorResponse(404, result.left);
@@ -29,13 +28,15 @@ export class UserController {
     }
   }
 
-  async createUser(userInput: ICreateUserInput): Promise<APIGatewayProxyResult> {
+  async createUser(
+    userInput: ICreateUserInput
+  ): Promise<APIGatewayProxyResult> {
     try {
-      if(userInput==null)
-        return this.getErrorResponse(400,"Missing body content")
-      
+      if (userInput == null)
+        return this.getErrorResponse(400, "Missing body content");
+
       const result = await this.createUserUseCase.exec(userInput);
-  
+
       if (E.isLeft(result)) {
         // Tratar erro do caso de uso e retornar resposta de erro
         return this.getErrorResponse(400, result.left);
@@ -49,8 +50,6 @@ export class UserController {
       return this.getErrorResponse(500, "Internal Server Error");
     }
   }
-  
-  
 
   private getErrorResponse(
     statusCode: number,

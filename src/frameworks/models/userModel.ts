@@ -4,7 +4,6 @@ import { IUserEntity } from "../../entities/iUserEntity";
 const schema = new Schema<IUserEntity>({
   name: { type: String },
   lastName: { type: String },
-  documentNumber: { type: String },
   email: { type: String, index: true, unique: true },
 });
 

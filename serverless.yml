@@ -10,19 +10,6 @@ provider:
   environment:
     MONGO_URI: ${env:MONGO_URI}
   timeout: 30
-  ##copilot################
-  apiGateway:
-    restApiId:
-      Ref: ApiGatewayRestApi
-    restApiRootResourceId:
-      Fn::GetAtt:
-        - ApiGatewayRestApi
-        - RootResourceId
-    minimumCompressionSize: 1024
-    shouldStartNameWithService: true
-    binaryMediaTypes:
-      - "application/json"
-  #######################
 custom:
   esbuild:
     bundle: true
