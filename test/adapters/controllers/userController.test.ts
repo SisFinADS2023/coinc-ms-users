@@ -38,7 +38,6 @@ describe(UserController.name, () => {
       _id: new ObjectId(123456),
       name: "Test",
       lastName: "Test",
-      documentNumber: "12345678910",
       email: "test@test.com",
       password: "123456",
     };
@@ -85,7 +84,6 @@ describe(UserController.name, () => {
        name: "Test",
         lastName: "Test",
         email: "test@test.com",
-        documentNumber: "12345678910",
         password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(userOutput);
@@ -102,7 +100,6 @@ describe(UserController.name, () => {
        name: "Test",
         lastName: "Test",
         email: "test@test.com",
-        documentNumber: "12345678910",
         password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(

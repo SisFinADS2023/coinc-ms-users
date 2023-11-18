@@ -4,8 +4,9 @@ import { IUserRepository } from "./../contracts/repositories/iUserRepository";
 import { UserOutput } from "./output/userOutput";
 import { ICreateUseCase } from "./../contracts/usecases/iCreateUseCase";
 import { ICreateUserInput } from "./input/iCreateUserInput";
-import { CreateUserFailed } from "./../errors";
+import { CreateUserFailed, DuplicateDocumentError } from "./../errors";
 import { UserEntity } from "../../entities/userEntity";
+import { log } from "console";
 
 @injectable()
 export class CreateUserUseCase
@@ -33,7 +34,11 @@ export class CreateUserUseCase
         return right(result);
       }
     } catch (ex) {
-      return left(CreateUserFailed);
+      console.log("EXCETI", ex);
+      if(!(ex.code = "11000")){
+        return left(CreateUserFailed);
+      }
+      return left(DuplicateDocumentError)
     }
   }
 }

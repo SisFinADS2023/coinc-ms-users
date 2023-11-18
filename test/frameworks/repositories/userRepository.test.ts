@@ -26,7 +26,6 @@ describe(UserRepository.name, () => {
         _id: _id,
         name: "Maria Fernanda",
         lastName: "Souza",
-        documentNumber: "11111111",
         email: "mariafernanda@email.com",
       };
 
