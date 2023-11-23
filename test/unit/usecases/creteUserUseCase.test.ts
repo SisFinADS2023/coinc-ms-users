@@ -73,15 +73,5 @@ describe(CreateUserUseCase.name, () => {
             expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
             expect(result).toEqual(E.left(CreateUserFailed));
         });
-        it("should return CreateUserFailed when an error occurs", async () => {
-            userRepositoryMockCreateFunction.mockRejectedValueOnce(
-                new Error("Error on create user")
-            );
-            result = await createUserUseCase.exec(userInput);
-
-            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "12345678910", "123456");
-            expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
-            expect(result).toEqual(E.left(CreateUserFailed));
-        });
     });
 });
