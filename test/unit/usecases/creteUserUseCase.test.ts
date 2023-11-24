@@ -50,7 +50,7 @@ describe(CreateUserUseCase.name, () => {
             });
 
 
-            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com","123456");
+            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "123456");
 
 
             userRepositoryMockCreateFunction.mockResolvedValueOnce(userOutput);
