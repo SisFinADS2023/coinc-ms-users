@@ -52,7 +52,7 @@ functions:
     events:
       - http:
           path: ${self:custom.baseApi}/{_id}
-          method: patch
+          method: put
           cors:
             origin: "*"
             headers: "*"
