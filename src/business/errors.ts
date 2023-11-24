@@ -16,3 +16,8 @@ export const CreateUserFailed: any = {
   shortMessage: "Create User Failed",
 };
 
+export const UpdateUserFailed: any = {
+  code: "USC-003",
+  message: "User Failed on Update",
+  shortMessage: "Update User Failed",
+};

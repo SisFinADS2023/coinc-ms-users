@@ -43,7 +43,6 @@ describe(GetUserUseCase.name, () => {
         _id: new ObjectId(123456),
         name: "João",
         lastName: "Souza",
-        documentNumber: "11111111111",
         email: "email@email.com",
         password: "123456",
       });

@@ -2,19 +2,22 @@ import "reflect-metadata";
 import { UserRepository } from "./../../../src/frameworks/repositories/userRepository";
 import { Model, Schema } from "mongoose";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
-
+import { ObjectId } from "bson";
 
 describe(UserRepository.name, () => {
   let userModelFindByIdMockFunction: jest.Mock;
+  let userModelFindOneAndUpdateMockFunction: jest.Mock;
   let userModelMock: Model<IUserEntity>;
   let userRepository: UserRepository;
   let _id: string;
 
   beforeEach(() => {
     userModelFindByIdMockFunction = jest.fn();
+    userModelFindOneAndUpdateMockFunction = jest.fn();
 
     userModelMock = {
       findById: userModelFindByIdMockFunction,
+      findOneAndUpdate: userModelFindOneAndUpdateMockFunction,
     } as unknown as Model<IUserEntity>;
 
     userRepository = new UserRepository(userModelMock);
@@ -26,7 +29,6 @@ describe(UserRepository.name, () => {
         _id: _id,
         name: "Maria Fernanda",
         lastName: "Souza",
-        documentNumber: "11111111",
         email: "mariafernanda@email.com",
       };
 
@@ -61,5 +63,37 @@ describe(UserRepository.name, () => {
 
       await expect(userRepository.show(_id)).rejects.toThrowError(errorMock);
     });
+  });
+
+  describe("update user", () => {
+    describe("when success", () => {
+      it("should return the expected updated user from the collection", async () => {
+        const userMock: IUserEntity = {
+          _id: new ObjectId(_id),
+          name: "Maria Fernanda",
+          lastName: "Souza",
+          email: "mariafernanda@email.com",
+          password: "123456",
+        };
+
+        const userDocumentMock = {
+          ...userMock,
+          __v: 1,
+          toObject: jest.fn(),
+        };
+
+        userModelFindOneAndUpdateMockFunction.mockResolvedValueOnce(
+          userDocumentMock
+        );
+        const result = await userRepository.update(userMock);
+        expect(userModelFindOneAndUpdateMockFunction).toHaveBeenCalledWith(
+          { email: userMock.email },
+          userMock,
+          { returnOriginal: false }
+        );
+        expect(result).toEqual(userDocumentMock);
+      });
+    });
+    describe("When failure", () => {});
   });
 });

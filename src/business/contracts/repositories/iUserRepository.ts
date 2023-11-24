@@ -8,7 +8,7 @@ export interface IUserRepository {
   create(user: IUserEntity): Promise<IUserEntity>;
 
   // Atualiza um usuário existente
-  update(userId: string, updatedUser: IUserEntity): Promise<IUserEntity>;
+  update(user: IUserEntity): Promise<IUserEntity>;
 
   // Lista todos os usuários
   list(): Promise<IUserEntity[]>;

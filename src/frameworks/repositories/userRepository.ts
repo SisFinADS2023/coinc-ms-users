@@ -19,8 +19,18 @@ export class UserRepository implements IUserRepository {
     return user as IUserEntity;
   }
 
-  async update(userId: string, updatedUser: IUserEntity): Promise<IUserEntity> {
-    throw new Error("Method not implemented.");
+  async update(userObj: IUserEntity): Promise<IUserEntity> {
+    const user = await this.userModel.findOneAndUpdate(
+      {
+        email: userObj.email,
+      },
+      userObj,
+      {
+        returnOriginal: false,
+      }
+    );
+
+    return user as IUserEntity;
   }
 
   async list(): Promise<IUserEntity[]> {

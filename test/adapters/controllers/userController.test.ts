@@ -6,17 +6,24 @@ import { UserController } from "./../../../src/adapters/controllers/userControll
 import { IGetUseCase } from "./../../../src/business/contracts/usecases/iGetUseCase";
 import { IGetUserInput } from "./../../../src/business/usecases/input/iGetUserInput";
 import { UserOutput } from "./../../../src/business/usecases/output/userOutput";
-import { UserNotFound, GetUserFailed } from "./../../../src/business/errors";
+import {
+  UserNotFound,
+  GetUserFailed,
+  UpdateUserFailed,
+} from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { mock, when, instance } from "ts-mockito";
 
 import * as E from "fp-ts/Either";
 import { ICreateUserInput } from "../../../src/business/usecases/input/iCreateUserInput";
+import { IUpdateUserInput } from "../../../src/business/usecases/input/iUpdateUserInput";
 import { ICreateUseCase } from "../../../src/business/contracts/usecases/iCreateUseCase";
+import { IUpdateUseCase } from "../../../src/business/contracts/usecases/iUpdateUseCase";
 
 describe(UserController.name, () => {
   let getUserUseCaseMock: IGetUseCase<IGetUserInput, UserOutput>;
   let createUserUseCaseMock: ICreateUseCase<ICreateUserInput, UserOutput>;
+  let updateUserUseCaseMock: IUpdateUseCase<IUpdateUserInput, UserOutput>;
   let userController: UserController;
   let userEntity: IUserEntity;
   let userOutput: UserOutput;
@@ -28,9 +35,13 @@ describe(UserController.name, () => {
     getUserUseCaseMock = mock<IGetUseCase<IGetUserInput, UserOutput>>();
     createUserUseCaseMock =
       mock<ICreateUseCase<ICreateUserInput, UserOutput>>();
+    updateUserUseCaseMock =
+      mock<IUpdateUseCase<IUpdateUserInput, UserOutput>>();
+
     userController = new UserController(
       instance(getUserUseCaseMock),
-      instance(createUserUseCaseMock)
+      instance(createUserUseCaseMock),
+      instance(updateUserUseCaseMock)
     );
     userInput = { _id: "12345" };
     userId = "123456";
@@ -38,7 +49,6 @@ describe(UserController.name, () => {
       _id: new ObjectId(123456),
       name: "Test",
       lastName: "Test",
-      documentNumber: "12345678910",
       email: "test@test.com",
       password: "123456",
     };
@@ -82,10 +92,9 @@ describe(UserController.name, () => {
   describe("When create User", () => {
     it("should return a user when created", async () => {
       const createUserInput: ICreateUserInput = {
-       name: "Test",
+        name: "Test",
         lastName: "Test",
         email: "test@test.com",
-        documentNumber: "12345678910",
         password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(userOutput);
@@ -99,10 +108,9 @@ describe(UserController.name, () => {
   describe("When error", () => {
     it("should return CreateUserFailed when error is thown", async () => {
       const createUserInput: ICreateUserInput = {
-       name: "Test",
+        name: "Test",
         lastName: "Test",
         email: "test@test.com",
-        documentNumber: "12345678910",
         password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(
@@ -111,6 +119,47 @@ describe(UserController.name, () => {
       result = await userController.createUser(createUserInput);
       expect(result.statusCode).toEqual(400);
       expect(result.body).toEqual(JSON.stringify({ error: GetUserFailed }));
+    });
+  });
+
+  describe("When Update User", () => {
+    describe("When succes", () => {
+      it("should return a user when updated", async () => {
+        const updateUserInput: IUpdateUserInput = {
+          _id: new ObjectId(),
+          name: "Test",
+          lastName: "Test",
+          email: "test@test.com",
+          password: "123456",
+        };
+        when(updateUserUseCaseMock.exec(updateUserInput)).thenResolve(
+          userOutput
+        );
+        result = await userController.updateUser(updateUserInput);
+
+        expect(result.statusCode).toBe(200);
+        expect(result.body).toEqual(JSON.stringify(userEntity));
+      });
+    });
+
+    describe("When error", () => {
+      it("should return UpdateUserFailed when error is thown", async () => {
+        const updateUserInput: IUpdateUserInput = {
+          _id: new ObjectId(),
+          name: "Test",
+          lastName: "Test",
+          email: "test@test.com",
+          password: "123456",
+        };
+        when(updateUserUseCaseMock.exec(updateUserInput)).thenResolve(
+          E.left(UpdateUserFailed)
+        );
+        result = await userController.updateUser(updateUserInput);
+        expect(result.statusCode).toEqual(400);
+        expect(result.body).toEqual(
+          JSON.stringify({ error: UpdateUserFailed })
+        );
+      });
     });
   });
 });

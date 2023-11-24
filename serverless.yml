@@ -44,6 +44,19 @@ functions:
             origin: "*"
             headers: "*"
 
+  updateUser:
+    handler: ${self:custom.handlers}/updateUser.updateUser
+    tracing: true
+    url:
+      authorizer: aws_iam
+    events:
+      - http:
+          path: ${self:custom.baseApi}/{_id}
+          method: patch
+          cors:
+            origin: "*"
+            headers: "*"
+
 plugins:
   - serverless-esbuild
   - serverless-offline
