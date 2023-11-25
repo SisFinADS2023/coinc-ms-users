@@ -13,19 +13,19 @@ export const CreateUserRequestSchema = z.object({
   }),
   password: z.string().nonempty().min(8)
     .refine((value) => /[a-z]/.test(value), {
-      message: "Password must contain at least one lowercase letter",
+      message: "A senha deve conter pelo menos uma letra minúscula",
       path: ["password"],
     })
     .refine((value) => /[A-Z]/.test(value), {
-      message: "Password must contain at least one uppercase letter",
+      message: "A senha deve conter pelo menos uma letra maiúscula",
       path: ["password"],
     })
     .refine((value) => /\d/.test(value), {
-      message: "Password must contain at least one digit",
+      message: "A senha deve conter pelo menos um dígito",
       path: ["password"],
     })
     .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
-      message: "Password must contain at least one special character",
+      message: "A senha deve conter pelo menos um caractere especial",
       path: ["password"],
     }),
 });
