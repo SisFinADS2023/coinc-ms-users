@@ -5,7 +5,7 @@ import { CreateUserUseCase } from "./../../../src/business/usecases/createUserUs
 import { IUserRepository } from "./../../../src/business/contracts/repositories/iUserRepository";
 import { UserOutput } from "./../../../src/business/usecases/output/userOutput";
 import { ICreateUserInput } from "./../../../src/business/usecases/input/iCreateUserInput";
-import { CreateUserFailed } from "./../../../src/business/errors";
+import { CreateUserFailed, DuplicateEmailError} from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { IError } from "./../../../src/business/contracts/iError";
 import { UserEntity } from "./../../../src/entities/userEntity";
@@ -50,7 +50,7 @@ describe(CreateUserUseCase.name, () => {
             });
 
 
-            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com","123456");
+            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "123456");
 
 
             userRepositoryMockCreateFunction.mockResolvedValueOnce(userOutput);
@@ -72,6 +72,19 @@ describe(CreateUserUseCase.name, () => {
             const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "123456");
             expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
             expect(result).toEqual(E.left(CreateUserFailed));
+        });
+        it("should return CreateUserFailed when an error occurs", async () => {
+            userRepositoryMockCreateFunction.mockRejectedValueOnce(
+               {
+                name:"Duplicate key error",
+                code: "11000"
+               }
+            );
+            result = await createUserUseCase.exec(userInput);
+
+            const userEntity = new UserEntity("Teste", "Teste", "teste@email.com", "123456");
+            expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
+            expect(result).toEqual(E.left(DuplicateEmailError));
         });
     });
 });
