@@ -16,6 +16,11 @@ export const CreateUserFailed: any = {
   shortMessage: "Create User Failed",
 };
 
+export const DuplicateEmailError: any  = {
+  code: "USC-004",
+  message: "The User's Email duplicated",
+  shortMessage: "Duplicate Email",
+};
 export const UpdateUserFailed: any = {
   code: "USC-003",
   message: "User Failed on Update",
