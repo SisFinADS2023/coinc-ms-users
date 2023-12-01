@@ -44,7 +44,6 @@ describe(GetUserUseCase.name, () => {
         name: "João",
         lastName: "Souza",
         email: "email@email.com",
-        password: "123456",
       });
 
       userRepositoryMockGetFunction.mockResolvedValueOnce(userOutput);

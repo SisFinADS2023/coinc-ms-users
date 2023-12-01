@@ -5,5 +5,4 @@ export interface IUserEntity {
   name: String;
   lastName: String;
   email: String;
-  password: String;
 }

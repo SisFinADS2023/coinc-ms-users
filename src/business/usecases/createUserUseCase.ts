@@ -22,8 +22,7 @@ export class CreateUserUseCase
       const userEntity = new UserEntity(
         input.name,
         input.lastName,
-        input.email,
-        input.password
+        input.email
       );
 
       const result = await this.userRepository.create(userEntity);
