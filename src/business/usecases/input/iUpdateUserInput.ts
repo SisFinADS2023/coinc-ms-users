@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
 export interface IUpdateUserInput {
-  _id: ObjectId;
+  _id: string;
   name: string;
   lastName: string;
   email: string;

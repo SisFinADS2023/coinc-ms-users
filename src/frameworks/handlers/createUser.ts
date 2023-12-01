@@ -34,7 +34,6 @@ export const createUser: Handler = async (
       .filter(err => err.code === "custom")
       .map(err => err.message);
       
-      console.log("\n\n\n\n\n\n")
       console.log(error.errors)
       return {
         statusCode: 400,

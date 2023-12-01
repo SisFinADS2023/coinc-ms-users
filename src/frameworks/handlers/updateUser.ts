@@ -13,6 +13,7 @@ import {
   UpdateUserRequestSchema,
 } from "./../../adapters/serializers/updateUserRequest";
 import "./../models/index";
+import * as z from "zod";
 
 export const updateUser: Handler = async (
   event: APIGatewayProxyEvent,
@@ -21,16 +22,24 @@ export const updateUser: Handler = async (
   try {
     context.callbackWaitsForEmptyEventLoop = false;
     const userInput: UpdateUserRequest = UpdateUserRequestSchema.parse(
-      JSON.parse(event.body as string)
-    );
+      JSON.parse(event.body as string));
 
     const userController = container.get(UserController);
-
     const result = await userController.updateUser(userInput);
 
     return result;
   } catch (error) {
-    console.error("Error:", error);
+    if (error instanceof z.ZodError) {
+      const errorMessages = error.errors
+      .filter(err => err.code === "custom")
+      .map(err => err.message);
+      
+      console.log(error.errors)
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ messages: errorMessages }),
+      };
+    }
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Oh-oh! Something went wrong." }),
