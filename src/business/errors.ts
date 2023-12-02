@@ -9,3 +9,15 @@ export const UserNotFound: any = {
   message: "User Not Found",
   shortMessage: "User Not Found",
 };
+
+export const CreateUserFailed: any = {
+  code: "USC-003",
+  message: "User Failed on Create",
+  shortMessage: "Create User Failed",
+};
+
+export const DuplicateEmailError: any  = {
+  code: "USC-004",
+  message: "The User's Email duplicated",
+  shortMessage: "Duplicate Email",
+};

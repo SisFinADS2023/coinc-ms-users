@@ -1,7 +1,7 @@
 app: ms-users
 service: ms-users
 useDotenv: true
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -10,9 +10,7 @@ provider:
   environment:
     MONGO_URI: ${env:MONGO_URI}
   timeout: 30
-
 custom:
-  # webpackIncludeModules: true
   esbuild:
     bundle: true
     minify: false
@@ -28,11 +26,20 @@ functions:
       authorizer: aws_iam
     events:
       - http:
-          path: ${self:custom.baseApi}/{userId}
+          path: ${self:custom.baseApi}/{_id}
           method: get
-          cors:
-            origin: '*'
-            headers: '*'
+          cors: true
+  createUser:
+    handler: ${self:custom.handlers}/createUser.createUser
+    tracing: true
+    url:
+      authorizer: aws_iam
+    events:
+      - http:
+          path: ${self:custom.baseApi}
+          method: post
+          cors: true
+
 plugins:
   - serverless-esbuild
   - serverless-offline

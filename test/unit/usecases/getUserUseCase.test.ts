@@ -7,6 +7,7 @@ import { IGetUserInput } from "./../../../src/business/usecases/input/iGetUserIn
 import { UserNotFound, GetUserFailed } from "./../../../src/business/errors";
 import { IUserEntity } from "./../../../src/entities/iUserEntity";
 import { IError } from "./../../../src/business/contracts/iError";
+import { ObjectId } from "bson";
 
 import * as E from "fp-ts/Either";
 
@@ -17,24 +18,31 @@ describe(GetUserUseCase.name, () => {
   let userOutput: UserOutput;
   let userInput: IGetUserInput;
   let result: UserOutput;
+  let userId: string;
 
   beforeEach(() => {
     userRepositoryMockGetFunction = jest.fn();
     userRepositoryMock = {
       show: userRepositoryMockGetFunction,
+      create: jest.fn(),
+      update: jest.fn(),
+      list: jest.fn(),
+      delete: jest.fn(),
     };
     getUserUseCase = new GetUserUseCase(userRepositoryMock);
+    userId = "123456";
   });
 
   describe("When success", () => {
     it("should return a user when found", async () => {
       userInput = {
-        userId: "123",
+        _id: "123456",
       };
 
       userOutput = E.right<IError, IUserEntity>({
-        userId: "123",
-        name: "test",
+        _id: new ObjectId(123456),
+        name: "João",
+        lastName: "Souza",
         email: "email@email.com",
       });
 
@@ -42,9 +50,7 @@ describe(GetUserUseCase.name, () => {
 
       result = await getUserUseCase.exec(userInput);
 
-      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput.userId
-      );
+      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(userInput._id);
       expect(result).toEqual(E.right(userOutput));
     });
   });
@@ -53,11 +59,11 @@ describe(GetUserUseCase.name, () => {
     it("should return UserNotFound when user is not found", async () => {
       userRepositoryMockGetFunction.mockResolvedValueOnce(null);
 
-      userInput.userId = "123";
+      userInput._id = "123456";
 
       result = await getUserUseCase.exec(userInput);
 
-      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith("123");
+      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(userId);
       expect(result).toEqual(E.left(UserNotFound));
     });
 
@@ -68,9 +74,7 @@ describe(GetUserUseCase.name, () => {
 
       result = await getUserUseCase.exec(userInput);
 
-      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(
-        userInput.userId
-      );
+      expect(userRepositoryMockGetFunction).toHaveBeenCalledWith(userInput._id);
       expect(result).toEqual(E.left(GetUserFailed));
     });
   });
