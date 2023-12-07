@@ -50,7 +50,6 @@ describe(UserController.name, () => {
       name: "Test",
       lastName: "Test",
       email: "test@test.com",
-      password: "123456",
     };
 
     userOutput = E.right(userEntity);
@@ -95,7 +94,6 @@ describe(UserController.name, () => {
         name: "Test",
         lastName: "Test",
         email: "test@test.com",
-        password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(userOutput);
       result = await userController.createUser(createUserInput);
@@ -111,7 +109,6 @@ describe(UserController.name, () => {
         name: "Test",
         lastName: "Test",
         email: "test@test.com",
-        password: "123456",
       };
       when(createUserUseCaseMock.exec(createUserInput)).thenResolve(
         E.left(GetUserFailed)
