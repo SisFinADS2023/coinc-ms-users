@@ -37,7 +37,6 @@ describe(CreateUserUseCase.name, () => {
         name: "Teste",
         lastName: "Teste",
         email: "teste@email.com",
-        password: "123456",
       };
 
       userOutput = E.right<IError, IUserEntity>({
@@ -45,15 +44,9 @@ describe(CreateUserUseCase.name, () => {
         name: "Teste",
         lastName: "Teste",
         email: "teste@email.com",
-        password: "123456",
       });
 
-      const userEntity = new UserEntity(
-        "Teste",
-        "Teste",
-        "teste@email.com",
-        "123456"
-      );
+      const userEntity = new UserEntity("Teste", "Teste", "teste@email.com");
 
       userRepositoryMockCreateFunction.mockResolvedValueOnce(userOutput);
 
@@ -70,12 +63,7 @@ describe(CreateUserUseCase.name, () => {
       );
       result = await createUserUseCase.exec(userInput);
 
-      const userEntity = new UserEntity(
-        "Teste",
-        "Teste",
-        "teste@email.com",
-        "123456"
-      );
+      const userEntity = new UserEntity("Teste", "Teste", "teste@email.com");
       expect(userRepositoryMockCreateFunction).toHaveBeenCalledWith(userEntity);
       expect(result).toEqual(E.left(CreateUserFailed));
     });

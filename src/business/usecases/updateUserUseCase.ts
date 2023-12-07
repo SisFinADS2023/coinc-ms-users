@@ -21,8 +21,7 @@ export class UpdateUserUseCase
       const userEntity = new UserEntity(
         input.name,
         input.lastName,
-        input.email,
-        input.password
+        input.email
       );
 
       userEntity._id = input._id;

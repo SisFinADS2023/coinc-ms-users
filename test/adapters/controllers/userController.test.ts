@@ -127,7 +127,6 @@ describe(UserController.name, () => {
           name: "Test",
           lastName: "Test",
           email: "test@test.com",
-          password: "123456",
         };
         when(updateUserUseCaseMock.exec(updateUserInput)).thenResolve(
           userOutput
@@ -146,7 +145,6 @@ describe(UserController.name, () => {
           name: "Test",
           lastName: "Test",
           email: "test@test.com",
-          password: "123456",
         };
         when(updateUserUseCaseMock.exec(updateUserInput)).thenResolve(
           E.left(UpdateUserFailed)

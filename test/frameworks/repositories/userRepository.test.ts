@@ -73,7 +73,6 @@ describe(UserRepository.name, () => {
           name: "Maria Fernanda",
           lastName: "Souza",
           email: "mariafernanda@email.com",
-          password: "123456",
         };
 
         const userDocumentMock = {

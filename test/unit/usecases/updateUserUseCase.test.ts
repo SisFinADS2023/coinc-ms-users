@@ -33,15 +33,13 @@ describe(UpdateUserUseCase.name, () => {
   });
 
   describe("When sucess", () => {
-    id = new ObjectId();
-
     it("should update a user", async () => {
+      id = new ObjectId(123456);
       userInput = {
         _id: id,
         name: "Teste",
         lastName: "Teste",
         email: "teste@email.com",
-        password: "123456",
       };
 
       userOutput = E.right<IError, IUserEntity>({
@@ -49,15 +47,9 @@ describe(UpdateUserUseCase.name, () => {
         name: "Teste",
         lastName: "Teste",
         email: "teste@email.com",
-        password: "123456",
       });
 
-      const userEntity = new UserEntity(
-        "Teste",
-        "Teste",
-        "teste@email.com",
-        "123456"
-      );
+      const userEntity = new UserEntity("Teste", "Teste", "teste@email.com");
       userEntity._id = id;
 
       userRepositoryMockUpdateFunction.mockResolvedValueOnce(userOutput);
@@ -74,19 +66,13 @@ describe(UpdateUserUseCase.name, () => {
         new Error("Error on update user")
       );
       result = await updateUserUseCase.exec(userInput);
-      const userEntity = new UserEntity(
-        "Teste",
-        "Teste",
-        "teste@email.com",
-        "123456"
-      );
+      const userEntity = new UserEntity("Teste", "Teste", "teste@email.com");
       userEntity._id = id;
       userInput = {
         _id: id,
         name: "Teste",
         lastName: "Teste",
         email: "teste@email.com",
-        password: "123456",
       };
       expect(userRepositoryMockUpdateFunction).toHaveBeenCalledWith(userEntity);
       expect(result).toEqual(E.left(UpdateUserFailed));
