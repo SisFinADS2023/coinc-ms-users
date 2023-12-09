@@ -9,6 +9,7 @@ provider:
   region: us-east-1
   environment:
     MONGO_URI: ${env:MONGO_URI}
+    MS_AUTH_URL: ${env:MS_AUTH_URL}
   timeout: 30
 custom:
   esbuild:

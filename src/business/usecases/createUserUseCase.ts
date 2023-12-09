@@ -7,7 +7,6 @@ import { ICreateUserInput } from "./input/iCreateUserInput";
 import { CreateUserFailed, DuplicateEmailError } from "./../errors";
 import { UserEntity } from "../../entities/userEntity";
 
-
 @injectable()
 export class CreateUserUseCase
   implements ICreateUseCase<ICreateUserInput, UserOutput>
@@ -34,10 +33,10 @@ export class CreateUserUseCase
       }
     } catch (ex) {
       console.log("EXCETI", ex);
-      if(!(ex.code == "11000")){
+      if (!(ex.code == "11000")) {
         return left(CreateUserFailed);
       }
-      return left(DuplicateEmailError)
+      return left(DuplicateEmailError);
     }
   }
 }
