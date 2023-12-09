@@ -21,20 +21,31 @@ export const updateUser: Handler = async (
 ): Promise<APIGatewayProxyResult> => {
   try {
     context.callbackWaitsForEmptyEventLoop = false;
+
     const userInput: UpdateUserRequest = UpdateUserRequestSchema.parse(
-      JSON.parse(event.body as string));
+      JSON.parse(event.body as string)
+    );
 
-    const userController = container.get(UserController);
-    const result = await userController.updateUser(userInput);
+    const userId = event.pathParameters?._id;
 
-    return result;
+    if (userId) {
+      const updateUserInput: IUpdateUserInput = {
+        _id: userId,
+        ...userInput,
+      };
+      const userController = container.get(UserController);
+      const result = await userController.updateUser(updateUserInput);
+      return result;
+    } else {
+      throw new Error("invalid user id");
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       const errorMessages = error.errors
-      .filter(err => err.code === "custom")
-      .map(err => err.message);
-      
-      console.log(error.errors)
+        .filter((err) => err.code === "custom")
+        .map((err) => err.message);
+
+      console.log(error.errors);
       return {
         statusCode: 400,
         body: JSON.stringify({ messages: errorMessages }),

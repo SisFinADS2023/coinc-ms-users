@@ -86,7 +86,7 @@ describe(UserRepository.name, () => {
         );
         const result = await userRepository.update(userMock);
         expect(userModelFindOneAndUpdateMockFunction).toHaveBeenCalledWith(
-          { email: userMock.email },
+          { _id: userMock._id },
           userMock,
           { returnOriginal: false }
         );

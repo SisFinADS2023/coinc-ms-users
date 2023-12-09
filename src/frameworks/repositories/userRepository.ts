@@ -22,14 +22,14 @@ export class UserRepository implements IUserRepository {
   async update(userObj: IUserEntity): Promise<IUserEntity> {
     const user = await this.userModel.findOneAndUpdate(
       {
-        email: userObj.email,
+        _id: userObj._id,
       },
       userObj,
       {
         returnOriginal: false,
       }
     );
-
+    2;
     return user as IUserEntity;
   }
 
