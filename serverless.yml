@@ -39,7 +39,8 @@ functions:
           method: post
           cors:
             origin: "*"
-            headers: "*"
+            headers:
+              - "*"
   updateUser:
     handler: ${self:custom.handlers}/updateUser.updateUser
     tracing: true
