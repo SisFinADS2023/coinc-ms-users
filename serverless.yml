@@ -1,5 +1,5 @@
-app: ms-users
-service: ms-users
+app: coinc-ms-users
+service: coinc-ms-users
 useDotenv: true
 frameworkVersion: "3"
 
@@ -15,7 +15,7 @@ custom:
   esbuild:
     bundle: true
     minify: false
-  serviceName: ms-users
+  serviceName: coinc-ms-users
   baseApi: ${self:custom.serviceName}
   handlers: src/frameworks/handlers
 
