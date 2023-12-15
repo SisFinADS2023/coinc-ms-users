@@ -37,8 +37,9 @@ functions:
       - http:
           path: ${self:custom.baseApi}
           method: post
-          cors: true
-
+          cors:
+            origin: "*"
+            headers: "*"
   updateUser:
     handler: ${self:custom.handlers}/updateUser.updateUser
     tracing: true
