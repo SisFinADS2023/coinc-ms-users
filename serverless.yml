@@ -1,5 +1,5 @@
-app: coinc-ms-users
-service: coinc-ms-users
+app: ms-users
+service: ms-users
 useDotenv: true
 frameworkVersion: "3"
 
@@ -31,8 +31,7 @@ functions:
           method: get
           cors:
             origin: "*" 
-            headers: 
-              - "*"
+            headers: "*"
   createUser:
     handler: ${self:custom.handlers}/createUser.createUser
     tracing: true
@@ -42,8 +41,7 @@ functions:
           method: post
           cors:
             origin: "*"
-            headers:
-              - "*"
+            headers: "*"
   updateUser:
     handler: ${self:custom.handlers}/updateUser.updateUser
     tracing: true
@@ -55,8 +53,7 @@ functions:
           method: put
           cors:
             origin: "*"
-            headers: 
-              - "*"
+            headers: "*"
 
 plugins:
   - serverless-esbuild
