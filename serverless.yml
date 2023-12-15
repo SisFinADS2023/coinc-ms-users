@@ -18,6 +18,9 @@ custom:
   serviceName: ms-users
   baseApi: ${self:custom.serviceName}
   handlers: src/frameworks/handlers
+  apigateway:
+    stages:
+      - ms-users
 
 functions:
   getUser:
