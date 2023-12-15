@@ -58,3 +58,11 @@ functions:
 plugins:
   - serverless-esbuild
   - serverless-offline
+
+
+resources:
+  Resources:
+    CoincApiGateway:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: coinc
