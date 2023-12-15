@@ -30,7 +30,7 @@ functions:
           path: ${self:custom.baseApi}/{_id}
           method: get
           cors:
-            origin: "*", 
+            origin: "*" 
             headers: 
               - "*"
   createUser:
