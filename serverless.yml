@@ -15,7 +15,7 @@ custom:
   esbuild:
     bundle: true
     minify: false
-  serviceName: coinc-ms-users
+  serviceName: ms-users
   baseApi: ${self:custom.serviceName}
   handlers: src/frameworks/handlers
 
