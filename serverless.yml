@@ -29,7 +29,10 @@ functions:
       - http:
           path: ${self:custom.baseApi}/{_id}
           method: get
-          cors: true
+          cors:
+            origin: "*", 
+            headers: 
+              - "*"
   createUser:
     handler: ${self:custom.handlers}/createUser.createUser
     tracing: true
@@ -52,7 +55,8 @@ functions:
           method: put
           cors:
             origin: "*"
-            headers: "*"
+            headers: 
+              - "*"
 
 plugins:
   - serverless-esbuild
