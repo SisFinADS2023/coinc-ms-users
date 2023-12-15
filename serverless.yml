@@ -36,8 +36,6 @@ functions:
   createUser:
     handler: ${self:custom.handlers}/createUser.createUser
     tracing: true
-    url:
-      authorizer: aws_iam
     events:
       - http:
           path: ${self:custom.baseApi}
